@@ -55,8 +55,8 @@ function OverviewCells() {
     <section className="explore-band" id="how">
       <div className="container">
         <div className="explore-head">
-          <span className="eyebrow explore-eyebrow" style={{fontSize:'22px',color:'#FFFFFF',fontWeight:800,letterSpacing:'0.02em'}}>THE BEST WAY TO LEARN THE CAT IS TO USE IT</span>
-          <p className="explore-lede">Three quick views of what the tool does, when curriculum designers reach for it, and what changes once alignment is visible.</p>
+          <span className="eyebrow explore-eyebrow" style={{fontSize:'22px',color:'#FFFFFF',fontWeight:800,letterSpacing:'0.02em'}}>THE BEST WAY TO LEARN THE CAT IS TO USE IT - <span style={{fontFamily:'Mulish, -apple-system, "system-ui", "Segoe UI", system-ui, sans-serif',fontWeight:500,letterSpacing:'-0.22px',textTransform:'none'}}>but here is some information to orient you to its capabilities</span></span>
+          <p className="explore-lede"></p>
         </div>
         <div className="explore-tabs">
           {cells.map((c) => (
