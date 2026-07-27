@@ -40,11 +40,11 @@ function SiteNav({ current = "home" }) {
           )}
         </nav>
         <div className="site-cta">
-          <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos" target="_blank" rel="noopener" className="btn btn-primary btn-nav-a">
+          <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos" target="_blank" rel="noopener" className="btn btn-nav-a">
             Open Pathway A
             <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>
-          <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos-inverse" target="_blank" rel="noopener" className="btn btn-primary btn-nav-b">
+          <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos-inverse" target="_blank" rel="noopener" className="btn btn-nav-b">
             Open Pathway B
             <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>

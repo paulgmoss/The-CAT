@@ -12,7 +12,7 @@
   <style>/* ACT Design Tokens — University palette, restrained light use */
 :root {
   --c-white: #FFFFFF;
-  --c-bg: #F4F2EA;
+  --c-bg: #F8EFE0;
   --c-bg-2: #EDEAE0;
   --c-bg-3: #E6E2D4;
   --c-ink: #140F50;
@@ -23,6 +23,8 @@
   --c-hairline-2: #D9D2B8;
   --c-bright: #5B3DF5;
   --c-purple: #836BFF;
+  --c-red: #D31569;
+  --c-red-2: #EF3E8C;
   --c-bright-soft: rgba(91, 61, 245, 0.08);
   --c-purple-soft: rgba(131, 107, 255, 0.12);
 
@@ -58,6 +60,11 @@ h1, h2, h3, h4 { font-family: var(--f-display); color: var(--c-ink); font-weight
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-family: var(--f-sans); font-size: 14px; font-weight: 500; letter-spacing: -0.005em; border: 1px solid transparent; cursor: pointer; transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease; text-decoration: none; white-space: nowrap; }
 .btn-primary { background: var(--c-ink); color: var(--c-bg-2); border-color: var(--c-ink); }
 .btn-primary:hover { transform: translateY(-1px); background: #0a0640; }
+.site-cta { display: flex; gap: 6px; flex-shrink: 0; }
+.btn-nav-a { font-size: 13px; padding: 10px 14px; background: var(--c-red); border-color: var(--c-red); color: #fff; }
+.btn-nav-a:hover { background: #A80F52; border-color: #A80F52; transform: translateY(-1px); }
+.btn-nav-b { font-size: 13px; padding: 10px 14px; background: var(--c-red-2); border-color: var(--c-red-2); color: #fff; }
+.btn-nav-b:hover { background: var(--c-red); border-color: var(--c-red); transform: translateY(-1px); }
 :focus-visible { outline: 2px solid var(--c-bright); outline-offset: 2px; }
 html { scroll-behavior: smooth; }
 </style>
@@ -83,13 +90,12 @@ html { scroll-behavior: smooth; }
 .footer-title { font-family: var(--f-display); font-size: 15px; color: var(--c-ink); line-height: 1.2; }
 .footer-note { font-size: 12px; color: var(--c-muted); line-height: 1.3; max-width: none; }
 .footer-bottom { padding-top: 0; border-top: 0; display: flex; gap: 20px; color: var(--c-muted); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
-.btn-nav-a { font-size: 13px; padding: 10px 14px; }
-.btn-nav-b { font-size: 13px; padding: 10px 14px; background: var(--c-purple); border-color: var(--c-purple); color: #fff; }
-.btn-nav-b:hover { background: #6a52dd; border-color: #6a52dd; transform: translateY(-1px); }
 .btn .arrow { transition: transform 240ms ease; }
 .btn:hover .arrow { transform: translateX(3px); }
 @media (max-width: 1200px) { .site-links { gap: 0; } .site-link { padding: 8px 10px; font-size: 13px; } .brand-sub { display: none; } }
-@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } .site-links { display: none; } :root { --gutter: 24px; } }
+@media (max-width: 1180px) { .site-links { display: none; } }
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } :root { --gutter: 24px; } }
+@media (max-width: 620px) { .site-cta { display: none; } }
 </style>
   <!-- Scenarios content design-system tokens (--cat-*, --font-*, --text-*, --space-*, --radius-*, --shadow-*) -->
   <link rel="stylesheet" href="scenarios-tokens-final.css">
@@ -101,7 +107,7 @@ html { scroll-behavior: smooth; }
 <body data-screen-label="Scenarios">
   <template id="__bundler_thumbnail">
     <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-      <rect width="400" height="300" fill="#F4F2EA"></rect>
+      <rect width="400" height="300" fill="#F8EFE0"></rect>
       <rect x="168" y="50" width="64" height="48" rx="12" fill="#140F50"></rect>
       <polygon points="180,50 168,22 198,42" fill="#140F50"></polygon>
       <polygon points="220,50 232,22 202,42" fill="#140F50"></polygon>

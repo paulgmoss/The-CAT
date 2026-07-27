@@ -13,7 +13,7 @@
 :root {
   /* Palette */
   --c-white: #FFFFFF;
-  --c-bg: #F4F2EA;              /* cooler paper, away from warm cream */
+  --c-bg: #F8EFE0;              /* cooler paper, away from warm cream */
   --c-bg-2: #EDEAE0;             /* section break, softer limestone */
   --c-bg-3: #E6E2D4;
   --c-ink: #140F50;              /* dark blue, only for emphasis */
@@ -24,6 +24,8 @@
   --c-hairline-2: #D9D2B8;
   --c-bright: #5B3DF5;           /* CTA, active — tool violet */
   --c-purple: #836BFF;           /* secondary data */
+  --c-red: #D31569;
+  --c-red-2: #EF3E8C;
   --c-bright-soft: rgba(91, 61, 245, 0.08);
   --c-purple-soft: rgba(131, 107, 255, 0.12);
 
@@ -339,23 +341,29 @@ html { scroll-behavior: smooth; }
   .site-link { padding: 8px 10px; font-size: 13px; }
   .brand-sub { display: none; }
 }
+@media (max-width: 1180px) {
+  .site-links { display: none; }
+}
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .site-links { display: none; }
   :root { --gutter: 24px; }
+}
+@media (max-width: 620px) {
+  .site-cta { display: none; }
 }
 
 /* ─── Nav CTA (two pathway buttons) ─── */
 .site-cta { display: flex; gap: 6px; flex-shrink: 0; }
-.btn-nav-a { font-size: 13px; padding: 10px 14px; }
+.btn-nav-a { font-size: 13px; padding: 10px 14px; background: var(--c-red); border-color: var(--c-red); color: var(--c-white, #fff); }
+.btn-nav-a:hover { background: #A80F52; border-color: #A80F52; transform: translateY(-1px); }
 .btn-nav-b {
   font-size: 13px;
   padding: 10px 14px;
-  background: var(--c-purple, #836BFF);
-  border-color: var(--c-purple, #836BFF);
+  background: var(--c-red-2);
+  border-color: var(--c-red-2);
   color: var(--c-white, #fff);
 }
-.btn-nav-b:hover { background: #6a52dd; border-color: #6a52dd; transform: translateY(-1px); }
+.btn-nav-b:hover { background: var(--c-red); border-color: var(--c-red); transform: translateY(-1px); }
 </style>
   <style>/* ACT landing page sections styles */
 
@@ -1288,7 +1296,7 @@ html { scroll-behavior: smooth; }
     .gh {
       padding: 32px 0 28px;
       border-bottom: 1px solid var(--c-hairline);
-      background: var(--c-white);
+      background: var(--c-bg);
     }
     .gh-crumbs {
       font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em;
@@ -1597,7 +1605,7 @@ html { scroll-behavior: smooth; }
 <body data-screen-label="Pathway A guide">
   <template id="__bundler_thumbnail">
     <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-      <rect width="400" height="300" fill="#F4F2EA"></rect>
+      <rect width="400" height="300" fill="#F8EFE0"></rect>
       <rect x="168" y="50" width="64" height="48" rx="12" fill="#140F50"></rect>
       <polygon points="180,50 168,22 198,42" fill="#140F50"></polygon>
       <polygon points="220,50 232,22 202,42" fill="#140F50"></polygon>
@@ -1865,7 +1873,7 @@ html { scroll-behavior: smooth; }
                 <h3>Ready to start Pathway A?</h3>
                 <div className="gcta-meta">Opens in a new tab · come back to this guide any time</div>
               </div>
-              <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos" target="_blank" rel="noopener" className="btn btn-primary">
+              <a href="https://mediaproduction.adelaide.edu.au/pace-interactives/#/clos" target="_blank" rel="noopener" className="btn btn-nav-a">
                 Open Pathway A
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>

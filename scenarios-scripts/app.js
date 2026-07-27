@@ -283,7 +283,6 @@
     root.innerHTML = `
       <div style="min-height:100vh; background:var(--color-bg-page); font-family:var(--font-sans); color:var(--color-text-primary);">
         <div style="max-width:var(--maxw); margin:0 auto; padding:64px var(--gutter) 40px;">
-          <div style="font:var(--text-eyebrow); letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-highlight); margin-bottom:16px;">Scenarios</div>
           <h1 style="font:var(--text-h1); margin:0 0 16px; max-width:820px;">How educators use the <span class="cat-letter">C</span><span class="cat-letter">A</span><span class="cat-letter">T</span></h1>
           <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0; max-width:640px; font-size:24px;">Real narratives of what the tool surfaces. Select the context your design need matches.</p>
         </div>
