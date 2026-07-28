@@ -1,299 +1,181 @@
-/* CAT — Scenarios page renderer (vanilla JS, delegated events) */
+/* CAT — Scenarios page renderer. Three-zone accordion design.
+   Content: window.ZONES + window.CONTEXT_META. Screenshots: window.RAW_CONTEXTS. */
 (function () {
-  const RAW_CONTEXTS = window.RAW_CONTEXTS;
+  const RAW = window.RAW_CONTEXTS, ZONES = window.ZONES, META = window.CONTEXT_META;
 
-  const state = {
-    open: { sarah: true, maya: true, james: true },
-    activeContext: 'verifying',
-  };
+  const state = { ctx: 'verifying', pathway: 'A', open: null };
 
-  function esc(s) {
-    return String(s == null ? '' : s);
+  function esc(s) { return String(s == null ? '' : s); }
+
+  function shots(sc) {
+    // Resolve original / revised tool screenshots from whichever shape the source data uses.
+    if (sc.tableShotBeforeSrc) return { before: sc.tableShotBeforeSrc, after: sc.tableShotAfterSrc || null };
+    if (sc.newDesign && sc.newDesign.images) {
+      const im = sc.newDesign.images;
+      return { before: im[0] && im[0].src, after: (im[2] || im[1] || {}).src || null };
+    }
+    if (sc.confirmation) return { before: null, after: sc.confirmation.imageSrc };
+    return { before: null, after: null };
   }
 
-  function renderTabs() {
-    return RAW_CONTEXTS.map((ctx) => {
-      const isActive = ctx.id === state.activeContext;
-      const bg = isActive ? 'var(--cat-navy-950)' : 'transparent';
-      const color = isActive ? '#fff' : 'var(--color-text-primary)';
-      const border = isActive ? 'var(--cat-navy-950)' : 'var(--color-border-subtle)';
-      const eyebrowShort = ctx.eyebrow.split(' — ')[0];
-      return `
-        <div data-tab="${ctx.id}" style="cursor:pointer; padding:12px 24px; border-radius:var(--radius-pill); font:var(--text-body-sm); font-weight:600; letter-spacing:0.01em; background:${bg}; color:${color}; border:1px solid ${border}; transition:background 200ms ease-out, color 200ms ease-out;">
-          <span style="font-family:var(--font-mono); font-weight:600; margin-right:8px; opacity:0.7;">${esc(eyebrowShort)}</span>${esc(ctx.title)}
-        </div>`;
+  function groups(ctxId) {
+    const ctx = RAW.find((c) => c.id === ctxId);
+    const out = { A: [], B: [] };
+    ctx.scenarios.forEach((sc) => {
+      const z = ZONES[sc.id];
+      if (z) out[z.pathway].push(sc);
+    });
+    return out;
+  }
+
+  function renderContextTabs() {
+    return RAW.map((ctx) => {
+      const on = ctx.id === state.ctx;
+      const m = META[ctx.id];
+      const g = groups(ctx.id);
+      const n = g.A.length + g.B.length;
+      return `<button data-ctx="${ctx.id}" style="cursor:pointer; text-align:left; padding:18px 22px; border-radius:var(--radius-md); border:1px solid ${on ? 'var(--cat-navy-950)' : 'var(--color-border-subtle)'}; background:${on ? 'var(--cat-navy-950)' : 'var(--color-bg-surface)'}; color:${on ? '#fff' : 'var(--color-text-primary)'}; display:flex; flex-direction:column; gap:6px; transition:background 180ms ease-out, border-color 180ms ease-out;">
+        <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; opacity:${on ? 0.7 : 0.55};">${esc(m.label)} · ${n}</span>
+        <span style="font-weight:600; font-size:17px; letter-spacing:-0.01em;">${esc(ctx.title)}</span>
+      </button>`;
     }).join('');
   }
 
-  function renderBullets(bullets) {
-    return `<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;">
-      ${bullets.map((b) => `
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <span style="font:var(--text-tag); color:var(--color-accent-highlight); letter-spacing:var(--tracking-tag); text-transform:uppercase;">${esc(b.label)}</span>
-          <p style="font:var(--text-body-sm); margin:0; line-height:1.55;">${esc(b.text)}</p>
-        </div>`).join('')}
+  function renderPathwayTabs(g) {
+    return ['A', 'B'].map((p) => {
+      const on = p === state.pathway;
+      const n = g[p].length;
+      const dis = n === 0;
+      return `<button data-pathway="${p}" ${dis ? 'disabled' : ''} style="cursor:${dis ? 'default' : 'pointer'}; padding:9px 18px; border-radius:var(--radius-pill); font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; border:1.5px solid ${on ? 'var(--cat-violet-500)' : 'var(--cat-navy-950)'}; background:${on ? 'var(--cat-violet-500)' : 'transparent'}; color:${on ? '#fff' : dis ? 'var(--color-text-muted)' : 'var(--cat-navy-950)'}; opacity:${dis ? 0.45 : 1};">Pathway ${p} · ${n}</button>`;
+    }).join('');
+  }
+
+  function statBlock(label, value, note, variant) {
+    const after = variant === 'after';
+    return `<div style="padding:${after ? '18px 20px' : '12px 14px'}; background:${after ? 'var(--cat-violet-500)' : 'var(--color-bg-surface-muted)'}; border-radius:var(--radius-sm);">
+      <div style="font:var(--text-data-label); color:${after ? 'rgba(255,255,255,0.78)' : 'var(--color-text-muted)'}; margin-bottom:4px;">${esc(label)}</div>
+      <div style="font:var(--text-data-value); font-size:${after ? '20px' : '16px'}; ${after ? 'font-weight:600;' : ''} color:${after ? '#fff' : 'var(--color-text-primary)'}; line-height:1.35;">${esc(value)}</div>
+      <div style="font-size:13px; line-height:1.5; color:${after ? 'rgba(255,255,255,0.85)' : 'var(--color-text-muted)'}; margin-top:4px;">${esc(note)}</div>
     </div>`;
   }
 
-  function renderWhatChanged(paragraphs) {
-    return `<div style="margin-top:8px;">
-      <div style="font-family:var(--font-mono); font-weight:600; font-size:15px; letter-spacing:0.04em; color:var(--color-accent-highlight); margin-bottom:12px;">What the mapping is really recording</div>
-      ${paragraphs.map((p) => `<p style="font:var(--text-body-sm); color:var(--color-text-primary); margin:0 0 14px; line-height:1.55;">${esc(p)}</p>`).join('')}
+  function img(src, alt, h, muted) {
+    if (!src) return '';
+    const hRule = typeof h === 'string' ? h : `height:${h}px;`;
+    return `<img src="${src}" alt="${esc(alt)}" class="zoom-img" style="width:100%; ${hRule} object-fit:contain; display:block; border-radius:10px; background:var(--color-bg-surface-muted); cursor:zoom-in; ${muted ? 'filter:saturate(0.25) opacity(0.82); border:1px solid var(--color-border-subtle);' : 'border:2px solid var(--cat-violet-500);'}">`;
+  }
+
+  function zoneLabel(n, title, accent) {
+    return `<div style="display:flex; align-items:baseline; gap:10px; margin-bottom:14px;">
+      <span style="font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.1em; color:${accent || 'var(--color-text-muted)'};">ZONE ${n}</span>
+      <span style="font-weight:600; font-size:${n === 3 ? '19px' : '15px'}; letter-spacing:-0.01em;">${esc(title)}</span>
     </div>`;
-  }
-
-  function renderImpactBand(sc) {
-    return `<div style="${sc.showInlineImages ? 'border-top:1px solid var(--color-border-subtle); padding-top:28px; ' : ''}display:flex; flex-direction:column; gap:20px;">
-      <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em;">The impact of the change</div>
-      ${renderBullets(sc.bullets)}
-      ${renderWhatChanged(sc.whatChangedParagraphs)}
-    </div>`;
-  }
-
-  function renderStatBlock(sc, variant) {
-    // variant: 'before' | 'after'
-    const isAfter = variant === 'after';
-    const bg = isAfter ? 'var(--cat-violet-500)' : 'var(--color-bg-surface-muted)';
-    const labelColor = isAfter ? 'rgba(255,255,255,0.75)' : 'var(--color-text-muted)';
-    const valueColor = isAfter ? '#fff' : 'var(--color-text-primary)';
-    const noteColor = isAfter ? '#fff' : 'var(--color-text-muted)';
-
-    if (sc.hasCloTable) {
-      const note = isAfter ? sc.cloTable.afterNote : sc.cloTable.beforeNote;
-      return `<div style="padding:12px 14px; background:${bg}; border-radius:var(--radius-sm);">
-        <div style="font:var(--text-data-label); color:${labelColor}; margin-bottom:6px;">${esc(sc.cloTable.metricLabel)}</div>
-        <div style="font:var(--text-body-sm); font-size:13px; color:${noteColor};">${esc(note)}</div>
-      </div>`;
-    }
-    const value = isAfter ? sc.stat.after : sc.stat.before;
-    const note = isAfter ? sc.stat.afterNote : sc.stat.beforeNote;
-    return `<div style="padding:12px 14px; background:${bg}; border-radius:var(--radius-sm);">
-      <div style="font:var(--text-data-label); color:${labelColor}; margin-bottom:2px;">${esc(sc.stat.metricLabel)}</div>
-      <div style="font:var(--text-data-value); color:${valueColor}; font-size:17px; ${isAfter ? 'font-weight:600;' : ''}">${esc(value)}</div>
-      <div style="font:var(--text-body-sm); font-size:13px; color:${noteColor}; margin-top:2px;">${esc(note)}</div>
-    </div>`;
-  }
-
-  function zoomImg(src, alt, height) {
-    height = height || 340;
-    return `<img src="${src}" alt="${esc(alt)}" class="zoom-img" style="width:100%; height:${height}px; object-fit:contain; border-radius:10px; display:block; background:var(--color-bg-surface-muted); cursor:zoom-in;">`;
-  }
-
-  function renderCloRevealWeights(sc) {
-    if (!sc.cloReveal.beforeRows) return '';
-    return `
-      <div style="padding:12px 14px; background:var(--color-bg-surface-muted); border-radius:var(--radius-sm);">
-        <div style="font:var(--text-data-label); color:var(--color-text-muted); margin-bottom:6px;">${esc(sc.cloReveal.beforeWeights)}</div>
-        ${sc.cloReveal.beforeRows.map((r) => `<div style="display:flex; justify-content:space-between; gap:12px; font:var(--text-data-value); color:var(--color-text-primary); font-size:15px;"><span>${esc(r.name)}</span><span>${esc(r.pct)}</span></div>`).join('')}
-      </div>
-      <div style="padding:12px 14px; background:var(--cat-violet-500); border-radius:var(--radius-sm);">
-        <div style="font:var(--text-data-label); color:rgba(255,255,255,0.75); margin-bottom:6px;">${esc(sc.cloReveal.afterWeights)}</div>
-        ${sc.cloReveal.afterRows.map((r) => `<div style="display:flex; justify-content:space-between; gap:12px; font:var(--text-data-value); color:#fff; font-size:15px; font-weight:600;"><span>${esc(r.name)}</span><span>${esc(r.pct)}</span></div>`).join('')}
-      </div>`;
   }
 
   function renderExpanded(sc) {
-    const initial = sc.name.charAt(0);
-    const isDefaultReveal = !sc.hasCloReveal && !sc.hasNewDesignReveal && !sc.hasConfirmationReveal;
-    sc.showFullWidthImages = isDefaultReveal && sc.imagesFullWidth !== false;
-    sc.showInlineImages = isDefaultReveal && sc.imagesFullWidth === false;
-    return `
-      <div style="border-top:1px solid var(--color-border-subtle); padding:32px 24px 40px;">
-        <div style="display:flex; flex-direction:column; gap:40px;">
+    const z = ZONES[sc.id], s = shots(sc);
+    return `<div style="border-top:1px solid var(--color-border-subtle); padding:28px 24px 36px; display:flex; flex-direction:column; gap:20px;">
 
-          <div style="display:flex; gap:40px; align-items:flex-start;">
-            <img src="${sc.avatarSrc}" alt="${esc(sc.name)}" style="width:280px; height:460px; flex-shrink:0; object-fit:cover; border-radius:12px; background:var(--color-bg-surface-muted);">
-            <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:20px;">
-              <div>
-                <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em; margin-bottom:8px;">Course context</div>
-                <p style="font:var(--text-body-sm); margin:0; line-height:1.6;">${esc(sc.courseContext)}</p>
-              </div>
-              <div>
-                <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em; margin-bottom:8px;">The rationale for entering the tool</div>
-                <p style="font:var(--text-body-sm); margin:0; line-height:1.6;">${esc(sc.rationale)}</p>
-              </div>
-              ${sc.decision ? `
-              <div>
-                <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em; margin-bottom:8px;">${esc(sc.decision.title)}</div>
-                <p style="font:var(--text-body-sm); margin:0; line-height:1.6;">${esc(sc.decision.text)}</p>
-              </div>` : ''}
-              ${sc.hasCloReveal ? `
-              ${sc.tableShotBeforeSrc ? `
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em;">Table inputs from the tool</div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                  <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="font:var(--text-tag); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Original mapping — produces this implied weight</span>
-                    ${renderStatBlock(sc, 'before')}
-                    ${zoomImg(sc.tableShotBeforeSrc, sc.name + "'s original mapping")}
-                  </div>
-                  <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="font:var(--text-tag); color:var(--color-accent-highlight); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Revised mapping — implied weight now shifts</span>
-                    ${renderStatBlock(sc, 'after')}
-                    ${zoomImg(sc.tableShotAfterSrc, sc.name + "'s revised mapping")}
-                  </div>
-                </div>
-              </div>` : ''}` : ''}
-              ${sc.showInlineImages ? `
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em;">Table inputs from the tool</div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                  <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="font:var(--text-tag); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Original mapping — produces this implied weight</span>
-                    ${renderStatBlock(sc, 'before')}
-                    ${zoomImg(sc.tableShotBeforeSrc, sc.name + "'s original mapping")}
-                  </div>
-                  <div style="display:flex; flex-direction:column; gap:10px;">
-                    <span style="font:var(--text-tag); color:var(--color-accent-highlight); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Revised mapping — implied weight now shifts</span>
-                    ${renderStatBlock(sc, 'after')}
-                    ${zoomImg(sc.tableShotAfterSrc, sc.name + "'s revised mapping")}
-                  </div>
-                </div>
-              </div>` : ''}
-                </div>
-          </div>
-
-          ${sc.showFullWidthImages ? `
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em;">Table inputs from the tool</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                <span style="font:var(--text-tag); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Original mapping — produces this implied weight</span>
-                ${renderStatBlock(sc, 'before')}
-                ${zoomImg(sc.tableShotBeforeSrc, sc.name + "'s original mapping")}
-              </div>
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                <span style="font:var(--text-tag); color:var(--color-accent-highlight); text-transform:uppercase; letter-spacing:var(--tracking-tag);">Revised mapping — implied weight now shifts</span>
-                ${renderStatBlock(sc, 'after')}
-                ${zoomImg(sc.tableShotAfterSrc, sc.name + "'s revised mapping")}
-              </div>
-            </div>
-          </div>` : ''}
-
-          ${(sc.showFullWidthImages || sc.showInlineImages) ? `
-          <div style="border-top:1px solid var(--color-border-subtle); padding-top:28px;">
-            ${renderImpactBand(sc)}
-          </div>` : ''}
-
-          ${sc.hasCloReveal ? `
-          <div style="border-top:1px solid var(--color-border-subtle); padding-top:28px; display:flex; flex-direction:column; gap:20px;">
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">The insight</div>
-              ${sc.cloReveal.insightParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">The redirect</div>
-              ${sc.cloReveal.redirectParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-          </div>` : ''}
-
-          ${sc.hasNewDesignReveal ? `
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            <div style="font:var(--text-kicker-mono); color:var(--color-text-muted); letter-spacing:0.04em;">From the tool — building the mapping and reading the rubric composition</div>
-            <div style="display:grid; grid-template-columns:0.85fr 0.85fr 1.3fr; gap:16px;">
-              ${sc.newDesign.images.map((img) => `
-                <div style="display:flex; flex-direction:column; gap:10px; min-width:0;">
-                  ${zoomImg(img.src, img.id, 320)}
-                </div>`).join('')}
+      <div style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:stretch;">
+        <div style="display:flex; flex-direction:column; gap:14px; min-width:0;">
+          ${zoneLabel(1, 'The situation')}
+          <div style="display:grid; grid-template-columns:132px 1fr; gap:16px; align-items:start;">
+            <img src="${sc.avatarSrc}" alt="${esc(sc.name)}" style="width:132px; height:168px; object-fit:cover; border-radius:10px; background:var(--color-bg-surface-muted); display:block;">
+            <div style="display:flex; flex-direction:column; gap:10px; min-width:0;">
+              <p style="font:var(--text-body-sm); margin:0; line-height:1.55;">${esc(z.z1.context)}</p>
+              <p style="font:var(--text-body-sm); margin:0; line-height:1.55; color:var(--color-text-muted);">${esc(z.z1.rationale)}</p>
             </div>
           </div>
-          <div style="border-top:1px solid var(--color-border-subtle); padding-top:28px; display:flex; flex-direction:column; gap:20px;">
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">The rubric composition question</div>
-              ${sc.newDesign.rubricParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">What the new design process reveals</div>
-              ${sc.newDesign.closingParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-          </div>` : ''}
-
-          ${sc.hasConfirmationReveal ? `
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            <span style="font:var(--text-tag); color:var(--color-accent-highlight); text-transform:uppercase; letter-spacing:var(--tracking-tag);">${esc(sc.confirmation.imageLabel)}</span>
-            <div style="padding:12px 14px; background:var(--cat-violet-500); border-radius:var(--radius-sm); font:var(--text-data-value); color:#fff;">
-              <div style="font:var(--text-data-label); color:rgba(255,255,255,0.75); margin-bottom:2px;">${esc(sc.confirmation.metricLabel)}</div>
-              <div style="font-size:17px; font-weight:600;">${esc(sc.confirmation.value)}</div>
-              <div style="font:var(--text-body-sm); font-size:13px; color:#fff; margin-top:2px;">${esc(sc.confirmation.note)}</div>
-            </div>
-            ${zoomImg(sc.confirmation.imageSrc, sc.confirmation.placeholder)}
-          </div>
-          <div style="border-top:1px solid var(--color-border-subtle); padding-top:28px; display:flex; flex-direction:column; gap:20px;">
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">The confirmation</div>
-              ${sc.confirmation.confirmationParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-            <div>
-              <div style="font:var(--text-kicker-mono); color:var(--color-accent-highlight); letter-spacing:0.04em; margin-bottom:8px;">What the tool is building toward</div>
-              ${sc.confirmation.buildingTowardParagraphs.map((p) => `<p style="font:var(--text-body-sm); margin:0 0 14px; line-height:1.6;">${esc(p)}</p>`).join('')}
-            </div>
-          </div>` : ''}
-
+          ${statBlock(z.z1.statLabel, z.z1.statValue, z.z1.statNote, 'before')}
         </div>
-      </div>`;
+        <div style="display:flex; align-items:stretch;">
+          ${img(s.before, sc.name + ' — original mapping', 'height:100%; min-height:280px;', true)}
+        </div>
+      </div>
+
+      <div style="border-left:3px solid var(--cat-violet-500); background:var(--color-bg-surface-muted); padding:22px 24px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; display:grid; grid-template-columns:${z.z3.textOnly ? '1fr' : '0.95fr auto 1.35fr'}; gap:20px; align-items:stretch;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            ${zoneLabel(2, z.z2label || 'The gap', 'var(--cat-violet-500)')}
+            <p style="font:var(--text-body-sm); margin:0; line-height:1.65;">${esc(z.z2)}</p>
+          </div>
+          ${z.z3.textOnly ? '' : `
+          <div style="font-size:22px; color:var(--cat-violet-500); line-height:1; text-align:center;">↓</div>
+          ${statBlock(z.z3.statLabel, z.z3.statValue, z.z3.statNote, 'after')}`}
+        </div>
+        ${z.z3.textOnly ? '' : `
+        <div style="font-size:28px; color:var(--cat-violet-500); line-height:1; display:flex; align-items:center;">→</div>
+        <div style="display:flex; align-items:stretch;">
+          ${img(s.after, sc.name + ' — revised mapping', 'height:100%; min-height:420px;', false)}
+        </div>`}
+      </div>
+
+      <div>
+        ${zoneLabel(3, 'The impact', 'var(--cat-violet-500)')}
+        <div style="display:flex; flex-direction:column; gap:24px;">
+          ${z.z3.note ? `<p style="font:var(--text-body-sm); margin:0; line-height:1.65; max-width:78ch; color:var(--color-text-muted);">${esc(z.z3.note)}</p>` : ''}
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px 32px;">
+            ${z.z3.impacts.map((i) => `
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <span style="font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--color-accent-highlight);">${esc(i.label)}</span>
+                <p style="font:var(--text-body-sm); margin:0; line-height:1.6;"><strong style="font-weight:650;">${esc(i.lead)}</strong> ${esc(i.text)}</p>
+              </div>`).join('')}
+          </div>
+          <blockquote style="margin:8px 0 0; padding:24px 28px; background:var(--cat-navy-950); color:#fff; border-radius:var(--radius-sm); font-family:var(--font-serif-display); font-size:21px; font-style:italic; line-height:1.45; font-weight:500;">&ldquo;${esc(z.z3.quote)}&rdquo;</blockquote>
+        </div>
+      </div>
+    </div>`;
   }
 
-  function renderScenarioCard(sc) {
-    const isOpen = !!state.open[sc.id];
-    const chevron = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-    return `
-      <div style="background:var(--color-bg-surface); border:1px solid var(--color-border-subtle); border-radius:var(--radius-md); box-shadow:var(--shadow-panel); overflow:hidden;">
-        <div data-toggle="${sc.id}" style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 24px; cursor:pointer;">
-          <div style="display:flex; align-items:center; gap:16px;">
-            <div style="width:48px; height:48px; flex-shrink:0; border-radius:50%; overflow:hidden; background:var(--color-bg-surface-muted);">
-              <img src="${sc.avatarSrc}" alt="${esc(sc.name)}" style="width:48px; height:48px; object-fit:cover; display:block;">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:4px;">
-              <span style="font-weight:600; font-size:17px;">${esc(sc.name)}</span>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font:var(--text-tag); letter-spacing:var(--tracking-tag); padding:5px 12px; border-radius:var(--radius-pill); background:var(--color-badge-bg); color:var(--color-badge-text);">${esc(sc.discipline)}</span>
-                <span style="font:var(--text-tag); color:var(--color-text-muted);">${esc(sc.pathway)}</span>
-              </div>
-            </div>
-          </div>
-          <span style="font-size:20px; color:var(--color-text-muted); font-family:var(--font-mono); transform:${chevron}; transition:transform 200ms ease-out; display:inline-block;">⌄</span>
+  function renderCard(sc) {
+    const z = ZONES[sc.id], open = state.open === sc.id;
+    return `<div style="background:var(--color-bg-surface); border:1px solid ${open ? 'var(--cat-violet-500)' : 'var(--color-border-subtle)'}; border-radius:var(--radius-md); box-shadow:var(--shadow-panel); overflow:hidden;">
+      <div data-toggle="${sc.id}" style="display:flex; align-items:center; gap:18px; padding:18px 24px; cursor:pointer;">
+        <div style="width:52px; height:52px; flex-shrink:0; border-radius:50%; overflow:hidden; background:var(--color-bg-surface-muted);">
+          <img src="${sc.avatarSrc}" alt="${esc(sc.name)}" style="width:52px; height:52px; object-fit:cover; display:block;">
         </div>
-        ${isOpen ? renderExpanded(sc) : ''}
-      </div>`;
+        <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span style="font-weight:650; font-size:18px;">${esc(sc.name)}</span>
+            <span style="font:var(--text-tag); letter-spacing:var(--tracking-tag); padding:4px 11px; border-radius:var(--radius-pill); background:var(--color-badge-bg); color:var(--color-badge-text);">${esc(sc.discipline)}</span>
+            <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat-violet-500); font-weight:600;">Pathway ${z.pathway}</span>
+          </div>
+          <p style="font-size:14px; line-height:1.5; margin:0; color:var(--color-text-muted); text-wrap:pretty;">${esc(z.summary)}</p>
+        </div>
+        <span style="font-size:20px; color:var(--color-text-muted); font-family:var(--font-mono); transform:rotate(${open ? 180 : 0}deg); transition:transform 200ms ease-out; display:inline-block; flex-shrink:0;">⌄</span>
+      </div>
+      ${open ? renderExpanded(sc) : ''}
+    </div>`;
   }
 
-  function renderContext() {
-    const ctx = RAW_CONTEXTS.find((c) => c.id === state.activeContext);
-    if (!ctx) return '';
-    const hasScenarios = ctx.scenarios.length > 0;
-    const scenarioCountLabel = ctx.scenarios.length === 1 ? '1 scenario' : `${ctx.scenarios.length} scenarios`;
-    return `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <div style="padding-bottom:20px;">
-          <div style="font:var(--text-kicker-mono); letter-spacing:0.04em; color:var(--color-accent-highlight); margin-bottom:8px;">${esc(ctx.eyebrow)}</div>
-          <h2 style="font:var(--text-h2); margin:0 0 8px;">${esc(ctx.title)}</h2>
-          <p style="font:var(--text-body-sm); color:var(--color-text-muted); margin:0; max-width:680px;">${esc(ctx.blurb)}</p>
-          <span style="display:inline-block; font:var(--text-tag); color:#fff; background:var(--color-accent-highlight); letter-spacing:var(--tracking-tag); text-transform:uppercase; padding:5px 12px; border-radius:var(--radius-pill); margin-top:12px;">${scenarioCountLabel}</span>
-        </div>
-        ${hasScenarios ?
-          `<div style="display:flex; flex-direction:column; gap:16px;">${ctx.scenarios.map((sc) => renderScenarioCard(sc)).join('')}</div>` :
-          `<div style="border:1px solid var(--color-border-subtle); border-radius:var(--radius-md); padding:32px 24px; background:var(--color-bg-surface);">
-            <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0;">Scenarios for this pathway are being written — check back soon.</p>
-          </div>`}
-      </div>`;
+  function renderBody() {
+    const ctx = RAW.find((c) => c.id === state.ctx), m = META[state.ctx], g = groups(state.ctx);
+    const list = g[state.pathway];
+    return `<div style="display:flex; flex-direction:column; gap:24px;">
+      <div>
+        <h2 style="font:var(--text-h2); margin:0 0 8px;">${esc(m.label)}</h2>
+        <p style="font:var(--text-body-sm); color:var(--color-text-muted); margin:0; max-width:72ch;">${esc(m.blurb)}</p>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">${renderPathwayTabs(g)}</div>
+      ${list.length ?
+        `<div style="display:flex; flex-direction:column; gap:14px;">${list.map(renderCard).join('')}</div>` :
+        `<div style="border:1px dashed var(--color-border-subtle); border-radius:var(--radius-md); padding:36px 28px; background:var(--color-bg-surface);">
+          <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0;">No Pathway ${state.pathway} scenarios in this context yet.</p>
+        </div>`}
+    </div>`;
   }
 
   function render() {
-    const root = document.getElementById('scenarios-root');
-    root.innerHTML = `
+    document.getElementById('scenarios-root').innerHTML = `
       <div style="min-height:100vh; background:var(--color-bg-page); font-family:var(--font-sans); color:var(--color-text-primary);">
-        <div style="max-width:var(--maxw); margin:0 auto; padding:64px var(--gutter) 40px;">
+        <div style="max-width:var(--maxw); margin:0 auto; padding:64px var(--gutter) 32px;">
           <h1 style="font:var(--text-h1); margin:0 0 16px; max-width:820px;">How educators use the <span class="cat-letter">C</span><span class="cat-letter">A</span><span class="cat-letter">T</span></h1>
-          <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0; max-width:640px; font-size:24px;">Real narratives of what the tool surfaces. Select the context your design need matches.</p>
+          <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0; max-width:640px; font-size:24px;">Ten scenarios. Find the one that matches your situation, and read that one.</p>
         </div>
-        <div style="max-width:var(--maxw); margin:0 auto; padding:8px var(--gutter) 0;">
-          <div style="display:flex; gap:12px; flex-wrap:wrap; border-bottom:1px solid var(--color-border-subtle); padding-bottom:24px;">
-            ${renderTabs()}
-          </div>
+        <div style="max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);">
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">${renderContextTabs()}</div>
         </div>
-        <div style="max-width:var(--maxw); margin:0 auto; padding:40px var(--gutter) 96px; display:flex; flex-direction:column; gap:64px;">
-          ${renderContext()}
-        </div>
+        <div style="max-width:var(--maxw); margin:0 auto; padding:40px var(--gutter) 96px;">${renderBody()}</div>
       </div>`;
   }
 
@@ -306,31 +188,21 @@
     lb.innerHTML = '<img id="scenarios-lightbox-img" style="width:90vw; height:90vh; object-fit:contain; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4); cursor:default;">' +
       '<button id="scenarios-lightbox-close" aria-label="Close" style="position:fixed; top:24px; right:32px; width:40px; height:40px; border-radius:50%; border:none; background:rgba(255,255,255,0.15); color:#fff; font-size:22px; line-height:1; cursor:pointer;">&times;</button>';
     document.body.appendChild(lb);
-    lb.addEventListener('click', (e) => {
-      if (e.target.id !== 'scenarios-lightbox-img') closeLightbox();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
+    lb.addEventListener('click', (e) => { if (e.target.id !== 'scenarios-lightbox-img') closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
     return lb;
   }
+  function openLightbox(src) { const lb = ensureLightbox(); document.getElementById('scenarios-lightbox-img').src = src; lb.style.display = 'flex'; }
+  function closeLightbox() { const lb = document.getElementById('scenarios-lightbox'); if (lb) lb.style.display = 'none'; }
 
-  function openLightbox(src) {
-    const lb = ensureLightbox();
-    document.getElementById('scenarios-lightbox-img').src = src;
-    lb.style.display = 'flex';
-  }
-
-  function closeLightbox() {
-    const lb = document.getElementById('scenarios-lightbox');
-    if (lb) lb.style.display = 'none';
+  function firstPathway() {
+    const g = groups(state.ctx);
+    if (!g[state.pathway].length) state.pathway = g.A.length ? 'A' : 'B';
   }
 
   function applyHash() {
     const id = location.hash.replace('#', '');
-    if (id && RAW_CONTEXTS.some((c) => c.id === id)) {
-      state.activeContext = id;
-    }
+    if (id && RAW.some((c) => c.id === id)) { state.ctx = id; state.open = null; firstPathway(); }
   }
 
   function init() {
@@ -338,29 +210,32 @@
     render();
     window.addEventListener('hashchange', () => { applyHash(); render(); });
     document.getElementById('scenarios-root').addEventListener('click', (e) => {
-      const zoomEl = e.target.closest('img.zoom-img');
-      if (zoomEl) {
-        openLightbox(zoomEl.src);
-        return;
-      }
-      const tabEl = e.target.closest('[data-tab]');
-      if (tabEl) {
-        state.activeContext = tabEl.getAttribute('data-tab');
+      const z = e.target.closest('img.zoom-img');
+      if (z) { openLightbox(z.src); return; }
+      const c = e.target.closest('[data-ctx]');
+      if (c) { state.ctx = c.getAttribute('data-ctx'); state.open = null; firstPathway(); render(); return; }
+      const p = e.target.closest('[data-pathway]');
+      if (p && !p.disabled) { state.pathway = p.getAttribute('data-pathway'); state.open = null; render(); return; }
+      const t = e.target.closest('[data-toggle]');
+      if (t) {
+        const id = t.getAttribute('data-toggle');
+        const opening = state.open !== id;
+        state.open = opening ? id : null;
         render();
-        return;
-      }
-      const toggleEl = e.target.closest('[data-toggle]');
-      if (toggleEl) {
-        const id = toggleEl.getAttribute('data-toggle');
-        state.open[id] = !state.open[id];
-        render();
+        if (opening) {
+          requestAnimationFrame(() => {
+            const el = document.querySelector(`[data-toggle="${id}"]`);
+            if (el) {
+              const navH = document.querySelector('.site-nav')?.offsetHeight || 0;
+              const top = el.getBoundingClientRect().top + window.scrollY - navH - 16;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }
+          });
+        }
       }
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
