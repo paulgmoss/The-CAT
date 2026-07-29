@@ -6,12 +6,12 @@ window.ZONES = {
     summary: 'The course runs well, but Sarah has a nagging sense the campaign proposal is doing more work than the other two assignments.',
     z1: {
       context: 'Sarah coordinates a second-year Marketing course with three assignments: a brand audit (30%), a campaign proposal (40%), and a pitch presentation (30%), mapped against four equally weighted CLOs covering consumer behaviour analysis, strategic communication, market research methods, and professional presentation.',
-      rationale: 'She enters her existing mapping unchanged to see what the tool shows her.',
+      rationale: 'She enters her existing mapping as shown, unchanged to see what the tool shows her.',
       statLabel: 'Implied split — brand audit / campaign / pitch',
       statValue: '28 / 47 / 26',
       statNote: 'vs. the 30 / 40 / 30 Sarah intended',
     },
-    z2: 'The campaign proposal was carrying 7 percentage points more than stated. The teaching and assessment architecture had been treating it as a 47% task while students were told it was worth 40%. That extra 7% of emphasis had been going into the campaign proposal rather than into the brand audit and pitch — and students had been preparing accordingly.',
+    z2: 'The campaign proposal was carrying 7 percentage points more than stated. The teaching and assessment architecture had been treating it as a 47% task while students were told it was worth 40%. That extra 7% of emphasis had been going into the campaign proposal rather than into the brand audit and pitch — and students had been preparing accordingly. She alters the mapping.',
     z3: {
       statLabel: 'Revised implied split — brand audit / campaign / pitch',
       statValue: '29 / 41 / 30',
@@ -36,7 +36,7 @@ window.ZONES = {
       statValue: '18 / 31 / 51',
       statNote: 'vs. the 30 / 40 / 30 Omar intended',
     },
-    z2: 'The policy brief was carrying 21 percentage points more than stated. Omar had been running a course with a stated 30/40/30 structure that his own mapping implied was closer to 18/31/51 — a course where the final assignment carried more than half the course grade. Students who had been allocating effort in proportion to the stated weights had been systematically under-investing in the policy brief for three years.',
+    z2: 'The policy brief was carrying 21 percentage points more than stated. Omar had been running a course with a stated 30/40/30 structure that his own mapping implied was closer to 18/31/51 — a course where the final assignment carried more than half the course grade. Students who had been allocating effort in proportion to the stated weights had been systematically under-investing in the policy brief for three years. He altered the mapping as shown.',
     z3: {
       statLabel: 'Revised implied split — field report / data analysis / policy brief',
       statValue: '23 / 36 / 41',
@@ -67,7 +67,7 @@ window.ZONES = {
       statLabel: 'Revised CLO distribution',
       statValue: 'legal reasoning 34% · case analysis 32% · statutory interpretation 18% · research and argumentation 16%',
       statNote: 'case analysis now second only to legal reasoning',
-      note: 'Three targeted criteria changes produced this shift: case citation in the moot increased from 35 to 50 marks, advocacy structure reduced from 25 to 10; case analysis in the research essay increased from 25 to 30 marks; research and argumentation consolidated across both assignments, increasing from 10 to 20 marks each.',
+      note: 'Three targeted criteria changes produced this shift: case citation in the moot (mapped to CLO2) increased from 35 to 50 marks, advocacy structure (mapped to CLO 1) reduced from 25 to 10; case analysis in the research essay (mapped to CLO 2) increased from 25 to 30 marks; research and argumentation (CLO 4) consolidated across both assignments, increasing from 10 to 20 marks each.',
       impacts: [
         { label: 'Assessment load and student effort', lead: 'Students had been allocating significant time to advocacy performance — structure, delivery, presentation.', text: 'With advocacy structure reduced to 10 marks that effort is no longer proportionate. Students will redirect toward case application and legal argument, which is the primary moot skill at second-year level.' },
         { label: 'Tutorial time and teaching sequence', lead: 'Case analysis now needs a clearer through-line across all three assessment points.', text: 'Tutorials spending significant time on advocacy skills and research techniques can redirect toward case analysis practice — structured exercises, peer critique of legal arguments, case application to novel fact scenarios.' },
@@ -83,12 +83,12 @@ window.ZONES = {
     summary: 'After two iterations Maya has noticed students performing better on the exam than on the case analysis. She suspects the teaching emphasis has drifted.',
     z1: {
       context: 'Maya coordinates a second-year Business Ethics course with three assignments: a literature review (30%), a case analysis (40%), and a final exam (30%). She has four CLOs covering ethical reasoning (30%), stakeholder analysis (25%), applied judgement (25%), and written communication (20%).',
-      rationale: 'She enters her mapping to test that suspicion before making any changes.',
+      rationale: 'She enters her mapping to test that suspicion before making any changes as shown.',
       statLabel: 'Implied split — literature review / case analysis / exam',
       statValue: '30 / 33 / 37',
       statNote: 'vs. the 30 / 40 / 30 Maya intended',
     },
-    z2: 'The mapping confirmed her suspicion. Ethical reasoning and applied judgement were both pointing toward the exam rather than the case analysis — the course as taught had been directing more intellectual energy toward exam preparation than the case analysis demands. The case analysis was sitting at 33% against its stated 40%, and the exam at 37% against its stated 30%.',
+    z2: 'The mapping confirmed her suspicion. Ethical reasoning and applied judgement were both pointing toward the exam rather than the case analysis — the course as taught had been directing more intellectual energy toward exam preparation than the case analysis demands. The case analysis was sitting at 33% against its stated 40%, and the exam at 37% against its stated 30%. She alters the mapping.',
     z3: {
       statLabel: 'Revised implied split — literature review / case analysis / exam',
       statValue: '27 / 41 / 31',
@@ -113,7 +113,7 @@ window.ZONES = {
       statValue: '17 / 33 / 50',
       statNote: 'vs. the 20 / 40 / 40 Priya intended',
     },
-    z2: 'The progression logic had concentrated too much weight toward the exam across all four CLOs simultaneously. Priya\u2019s intended change — concentrating clinical reasoning even further toward the exam — made things worse, shifting the split to 15/31/54. The problem was not one CLO row but the cumulative effect of all four. The tool showed her that her proposed change was moving in the wrong direction before she committed to it.',
+    z2: 'The progression logic had concentrated too much weight toward the exam across all four CLOs simultaneously. Priya\u2019s intended change, concentrating clinical reasoning even further toward the exam, made things worse, shifting the split to 15/31/54. The problem was not one CLO row but the cumulative effect of all four. The tool showed her that her proposed change was moving in the wrong direction before she committed to it. She alters the mapping as shown.',
     z3: {
       statLabel: 'Revised implied split — clinical reflection / care plan / exam',
       statValue: '20 / 40 / 40',
@@ -157,15 +157,15 @@ window.ZONES = {
 
   lin: {
     pathway: 'B',
-    summary: 'Lin has a strong intuition that spatial reasoning is underweighted in her rubrics. She enters her criteria to find out by exactly how much.',
+    summary: 'Lin has a strong intuition that spatial reasoning is underweighted in her rubrics. They enter their criteria to find out by exactly how much.',
     z1: {
-      context: 'Lin coordinates a second-year Architecture course with three assignments: a design concept (30%), a technical drawing (30%), and a portfolio (40%). She has four CLOs covering spatial reasoning, technical precision, design communication, and creative synthesis.',
-      rationale: 'She wants to see what a single criterion change would do to the whole implied distribution.',
+      context: 'Lin coordinates a second-year Architecture course with three assignments: a design concept (30%), a technical drawing (30%), and a portfolio (40%). They have four CLOs covering spatial reasoning, technical precision, design communication, and creative synthesis.',
+      rationale: 'They want to see what a single criterion change would do to the whole implied distribution.',
       statLabel: 'Implied CLO distribution',
       statValue: 'spatial reasoning 17.71% · technical precision 29.57% · design communication 20.57% · creative synthesis 32.14%',
       statNote: 'spatial reasoning the least weighted CLO in the course',
     },
-    z2: 'Lin knew spatial reasoning was underweighted. What she did not know was by exactly how much, or what increasing the criterion would do to every other CLO. A 10-mark increase felt significant — but whether it was enough to bring spatial reasoning into meaningful prominence, or whether it would overcorrect, was not something she could calculate from the rubric alone.',
+    z2: 'Lin knew spatial reasoning was underweighted. What they did not know was by exactly how much, or what increasing the criterion would do to every other CLO. A 10-mark increase felt significant — but whether it was enough to bring spatial reasoning into meaningful prominence, or whether it would overcorrect, was not something they could calculate from the rubric alone.',
     z3: {
       statLabel: 'Revised CLO distribution',
       statValue: 'spatial reasoning 30% · technical precision 25% · design communication 17.5% · creative synthesis 27.5%',
@@ -173,7 +173,7 @@ window.ZONES = {
       impacts: [
         { label: 'Assessment load and student effort', lead: 'At 20 marks spatial reasoning becomes the single most marks-bearing criterion in the design concept.', text: 'Students who have been treating spatial reasoning as secondary need to reorient their preparation across all three assignments.' },
         { label: 'Tutorial time and teaching sequence', lead: 'Spatial reasoning is now assessed at equal intensity across all three assignments.', text: 'It needs to be explicitly taught and practised from the first week of the course — not deferred to a later assessment block. Tutorials need to incorporate spatial reasoning exercises earlier and more consistently.' },
-        { label: 'LMS resources', lead: 'The course site needs to reflect spatial reasoning as a primary CLO from the outset.', text: 'Resources supporting its development — site analysis frameworks, spatial perception exercises, three-dimensional modelling guides — need to be distributed across all three assessment streams.' },
+        { label: 'LMS resources', lead: 'The course site needs to reflect spatial reasoning as a primary CLO from the outset.', text: 'Resources supporting its development, site analysis frameworks, spatial perception exercises, three-dimensional modelling guides, need to be distributed across all three assessment streams.' },
         { label: 'Feedback', lead: 'Feedback on the design concept spatial reasoning criterion is now the first of three substantial feedback moments on this CLO.', text: 'It needs to be specific and developmental enough to inform how students approach spatial reasoning in the technical drawing and portfolio that follow.' },
       ],
       quote: 'Spatial reasoning is the most fundamental architectural capability I am developing in this course. At 17.71% it was not reflecting its importance. Now it does — and the course needs to be built around that.',
@@ -220,7 +220,7 @@ window.ZONES = {
       statNote: 'close enough to the intended 30 / 35 / 35 to build the course around',
       impacts: [
         { label: 'What Tab 4 revealed about the rubrics', lead: 'For a new course, Tab 4 is a specification for rubrics James has not yet written.', text: 'The design brief showed engineering design at 40% of that assignment\u2019s marks — confirming his intention. The lab report split almost equally between structural analysis and materials science. But the presentation showed professional communication at only 15.2%, in an assignment entirely delivered through communication.' },
-        { label: 'The design question the tool surfaced', lead: 'Is the presentation primarily a technical synthesis task with communication as a secondary feature, or should professional communication carry more weight?', text: 'James had not been asked to answer that question before. The rubric composition made it unavoidable — and answerable — before the brief was written and distributed to students.' },
+        { label: 'The design question the tool surfaced', lead: 'Is the presentation primarily a technical synthesis task with communication as a secondary feature, or should professional communication carry more weight?', text: 'James had not been asked to answer that question before. The rubric composition made it unavoidable, and answerable, before the brief was written and distributed to students.' },
         { label: 'Why new design is the highest-value context', lead: 'For a new course, the first signal that a design is misaligned is usually student performance data.', text: 'That arrives after the course has run and after students have been affected. The tool moves that signal upstream into the design stage, where every adjustment is still costless.' },
       ],
       quote: 'Three iterations of mapping before the implied weights came close to my intention. And even then Tab 4 surfaced a question about the presentation I had not thought to ask. That is exactly where those questions should be answered — before the briefs go out.',
