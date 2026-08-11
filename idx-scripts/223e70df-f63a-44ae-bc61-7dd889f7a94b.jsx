@@ -73,13 +73,13 @@ function OverviewCells() {
           <div className="explore-panel-inner">
             {open === 'what' &&
             <React.Fragment>
-                <p className="explore-panel-sub">The CAT quantifies the relationship between course learning outcomes (CLOs) and summative assessment via two pathways.</p>
+                <p className="explore-panel-sub">The CAT quantifies the relationship between course learning outcomes (CLOs) and summative asignments via two pathways.</p>
                 <div className="what-summary">
-                  <p className="what-summary-text"><strong>Pathway A</strong> starts from your CLO weightings and mapping, and derives the assignment weights and rubric composition they imply.<br /><strong>Pathway B</strong> starts from your assignments and rubrics, and derives the CLO emphasis they actually deliver.</p>
+                  <p className="what-summary-text"><strong>Pathway A</strong> starts from you estimating the relative importance of your CLOs (CLO weightings) and how they are mapped across your summative assignments, and derives the assignment weights and rubric composition they imply.<br /><strong>Pathway B</strong> starts from your summative assignments and rubrics, and displays the CLO weightings derived from them.</p>
                   <EssenceStage />
                   <div className="what-summary-insights">
-                    <PrincipleAccordion title="A CLO's weighting is a claim about how much of the assessment measures it." triggerStyle={{color:'#fff',backgroundColor:'var(--c-red)'}} tagColor="#fff">
-                      <p className="principle-body">If a learning outcome is <strong>40% of a course</strong>, then <strong>40% of the assessed marks</strong> should measure it. CLO weightings and the way they're distributed across assignments are two views of the same emphasis. The CAT makes that relationship explicit, and shows how closely the current design holds to it.</p>
+                    <PrincipleAccordion title="A CLO's weighting is a claim about how much of the overall assessment strategy measures it." triggerStyle={{color:'#fff',backgroundColor:'var(--c-red)'}} tagColor="#fff">
+                      <p className="principle-body">If a learning outcome is <strong>40% of a course</strong>, then <strong>40% of the total assessed marks</strong> should measure it. CLO weightings and the way they're distributed across assignments are two views of the same emphasis. The CAT makes that relationship explicit, and shows how closely the current design holds to it.</p>
                       <PrincipleWeightingViz />
                     </PrincipleAccordion>
                     <PrincipleAccordion title="The mapping and the teaching sequence are the same decision." triggerStyle={{color:'#fff',backgroundColor:'var(--c-red-2)'}} tagColor="#fff">
@@ -108,7 +108,7 @@ function OverviewCells() {
               </React.Fragment>}
             {open === 'why' &&
             <React.Fragment>
-                <p className="explore-panel-sub" style={{color:'#8E84E4',fontWeight:700}}>What clarity at the start leads to, for the educator and the student.</p>
+                <p className="explore-panel-sub" style={{color:'#8E84E4',fontWeight:700}}></p>
                 <BenefitsWrap />
               </React.Fragment>}
           </div>
