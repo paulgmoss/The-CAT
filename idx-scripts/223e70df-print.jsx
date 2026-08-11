@@ -13,7 +13,7 @@ function Hero() {
               </h1>
             </div>
             <p className="hero-sub">
-              See a course the way students experience it.
+              A tool for curriculum designers and teaching academics
             </p>
           </div>
           <div className="hero-top-right">
@@ -71,7 +71,7 @@ function OverviewCells() {
               <div className="explore-panel-inner">
                 {c.key === 'what' &&
                 <React.Fragment>
-                    <p className="explore-panel-sub">Two pathways, one relationship between outcomes and assessment.</p>
+                    <p className="explore-panel-sub">The CAT quantifies the relationship between course learning outcomes (CLOs) and summative assessment via two pathways.</p>
                     <div className="what-summary">
                       <p className="what-summary-text"><strong>Pathway A</strong> starts from your CLO weightings and mapping, and derives the assignment weights and rubric composition they imply.<br /><strong>Pathway B</strong> starts from your assignments and rubrics, and derives the CLO emphasis they actually deliver.</p>
                       <EssenceStage />

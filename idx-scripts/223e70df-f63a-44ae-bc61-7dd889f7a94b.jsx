@@ -13,13 +13,13 @@ function Hero() {
               </h1>
             </div>
             <p className="hero-sub">
-              See a course the way students experience it.
+              A tool for curriculum designers and teaching academics
             </p>
           </div>
           <div className="hero-top-right">
             <p className="hero-problem">See whether the curriculum you designed is the curriculum students actually experience.</p>
             <p className="hero-lede">
-              The CAT visualises constructive alignment in your course, checking whether the intended and mapped curriculum matches what students <strong><em style={{color:'#836BFF'}}>actually</em></strong> experience. It might confirm the design is working. It might reveal a gap worth addressing. Either way, you'll know, rather than assume.
+              The CAT visualises constructive alignment in your course (unit/subject), checking whether the intended and the mapped curriculum match what students <strong><em style={{color:'#836BFF'}}>actually</em></strong> experience. It might confirm the design is working. It might reveal a gap worth addressing. Either way, you'll know, rather than assume.
             </p>
             <div className="hero-top-actions">
               <p className="hero-research-note">
@@ -35,9 +35,9 @@ function Hero() {
 
 function OverviewCells() {
   const contexts = [
-    { num: '01', tag: 'Verification', title: 'Examine a course already in delivery', body: 'Check whether the CLO emphasis intended is what the assignments actually measure, a useful step before the course next runs.', contextId: 'verifying' },
-    { num: '02', tag: 'Refinement', title: 'Test revisions before committing', body: 'See how a proposed change to an assignment, rubric, or CLO propagates through the rest of the course structure before you lock it in.', contextId: 'refining' },
-    { num: '03', tag: 'New design', title: 'Build alignment from the start', body: 'Begin from whichever component is clearest, outcomes, assignments, or rubric criteria, and let the derivations scaffold the rest.', contextId: 'designing' },
+    { num: '01', title: 'Verify an existing course', body: 'Check whether the CLO emphasis intended is what the assignments actually measure, a useful step before the course next runs.', contextId: 'verifying' },
+    { num: '02', title: 'Refine an existing course', body: 'See how a proposed change to an assignment, rubric, or CLO propagates through the rest of the course structure before you lock it in.', contextId: 'refining' },
+    { num: '03', title: 'Design a new course', body: 'Begin from whichever component is clearest, outcomes, assignments, or rubric criteria, and let the derivations scaffold the rest.', contextId: 'designing' },
   ];
   const terms = [
     { term: 'Course', def: 'A single taught unit, sometimes called a subject, paper, module, or unit of study depending on your institution. In this tool, one course = one set of CLOs and one assessment structure.' },
@@ -46,9 +46,9 @@ function OverviewCells() {
     { term: 'Rubric', def: 'The marking guide for an assignment. Each criterion in the rubric can be tagged to one or more CLOs. Pathway B uses these tags to calculate the implied CLO emphasis.' },
   ];
   const cells = [
-    { key: 'what', num: '01', eyebrow: 'The tool', title: 'What the CAT does' },
-    { key: 'when', num: '02', eyebrow: 'Start here', title: 'When to use it' },
-    { key: 'why', num: '03', eyebrow: 'The payoff', title: 'Why it matters' },
+    { key: 'what', num: '01', eyebrow: '', title: 'What the CAT does' },
+    { key: 'when', num: '02', eyebrow: '', title: 'When to use it' },
+    { key: 'why', num: '03', eyebrow: '', title: 'Why it matters' },
   ];
   const [open, setOpen] = React.useState('what');
   return (
@@ -73,7 +73,7 @@ function OverviewCells() {
           <div className="explore-panel-inner">
             {open === 'what' &&
             <React.Fragment>
-                <p className="explore-panel-sub">Two pathways, one relationship between outcomes and assessment.</p>
+                <p className="explore-panel-sub">The CAT quantifies the relationship between course learning outcomes (CLOs) and summative assessment via two pathways.</p>
                 <div className="what-summary">
                   <p className="what-summary-text"><strong>Pathway A</strong> starts from your CLO weightings and mapping, and derives the assignment weights and rubric composition they imply.<br /><strong>Pathway B</strong> starts from your assignments and rubrics, and derives the CLO emphasis they actually deliver.</p>
                   <EssenceStage />
@@ -97,8 +97,6 @@ function OverviewCells() {
                 <div className="explore-contexts">
                   {contexts.map((ctx, ci) => (
                     <a className="uci-card explore-uci" href={`scenarios.html#${ctx.contextId}`} key={ci}>
-                      <span className="mono uci-num">{ctx.num}</span>
-                      <div className="uci-tag mono">{ctx.tag}</div>
                       <h3 className="uci-title">{ctx.title}</h3>
                       <p className="uci-body">{ctx.body}</p>
                       <span className="uci-link mono">See real scenarios
@@ -106,17 +104,6 @@ function OverviewCells() {
                       </span>
                     </a>
                   ))}
-                </div>
-                <div className="explore-terms" style={{backgroundColor:'var(--c-bg-2)'}}>
-                  <span className="explore-terms-label mono">Key terms used in this tool</span>
-                  <div className="explore-terms-grid">
-                    {terms.map((t, ti) => (
-                      <div className="explore-term" key={ti}>
-                        <span className="explore-term-name mono">{t.term}</span>
-                        <span className="explore-term-def">{t.def}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </React.Fragment>}
             {open === 'why' &&
@@ -259,8 +246,7 @@ function BenefitsWrap() {
               <span className="theme-num mono">01</span>
               <h3 className="theme-title">See what is actually happening</h3>
               <p className="theme-body">
-                A teaching academic designs a course to direct student effort a certain way, so much weight on each
-                task. The CAT compares that intention against where students are actually spending
+                A teaching academic designs a course to direct student effort a certain way. The CAT compares that intention against where students are actually spending
                 their time, bringing clarity to whether the design is landing as planned or effort has
                 quietly drifted elsewhere. Either way, it is verified, not assumed, and that is what
                 everything else here is built on.
@@ -523,8 +509,8 @@ function Research() {
     <section className="research" id="research">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-title" style={{ fontSize: 40 }}><span style={{color:'#836BFF'}}>Help us research the effectiveness of the CAT</span></h2>
-          <p className="section-lede" style={{ maxWidth: 720 }}>As a curriculum designer, you're the one who brings teaching academics to the CAT — and your work with them is what makes this research possible.</p>
+          <h2 className="section-title" style={{ fontSize: 40 }}><span style={{color:'#836BFF'}}>Curriculum designers, we need your help</span></h2>
+          <p className="section-lede" style={{ maxWidth: 720 }}>Help us research how teaching academics' thinking about alignment develops through the CAT.</p>
           <p className="research-voluntary"><strong>Use of the tool is open and unconditional.</strong> Registering interest commits you to nothing, and research participation will always be entirely voluntary.</p>
         </div>
 
@@ -532,20 +518,20 @@ function Research() {
           <div className="research-card is-dark">
             <div className="research-card-head">
               <span className="mono research-tag"></span>
-              <h3 className="research-title">Stage 1 - Your experience as a curriculum designer</h3>
+              <h3 className="research-title">Stage 1 - the Teaching Academic's experience</h3>
             </div>
-            <p className="research-body">Once ethics approval is granted you will be invited to complete a brief anonymous survey about your confidence in supporting teaching academics through the constructive alignment process and your reflections on the tool itself. Register your interest now and we will be in touch once the study is live.</p>
-            <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=QN_Ns1SWJkqGoXecUfacSCALdXuuzT5Nr4z-edJ4AwRUMFMzWFVNVVhHOVc5UVNQUEczUkRQQ01DWi4u" target="_blank" rel="noopener" className="btn btn-primary btn-on-dark">
-              Register your interest
-              <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </a>
+            <p className="research-body">Before your next CAT-supported session, we will ask whether you would be willing to let us know so we can invite the teaching academic you are working with to take part in a short interview, ideally before their first session with the tool. The interview explores how their thinking about alignment develops through working with the CAT. Their participation is entirely separate from yours and entirely their choice.</p>
           </div>
           <div className="research-card">
             <div className="research-card-head">
               <span className="mono research-tag"></span>
-              <h3 className="research-title">Stage 2 - the Teaching Academic's experience</h3>
+              <h3 className="research-title">Stage 2 - Your experience as a curriculum designer</h3>
             </div>
-            <p className="research-body">You also play a key role in a related but separate study. Before your next CAT-supported session, we will ask whether you would be willing to check if the teaching academic you are working with would like to participate in a short interview about their understanding of course design. The interview explores how their thinking about alignment develops through working with the CAT tool. Their participation is entirely separate from yours and entirely their choice.</p>
+            <p className="research-body">You will be invited to complete a brief anonymous survey about your confidence in supporting teaching academics through the constructive alignment process and your reflections on the tool itself. Register your interest now and we will be in touch once the study is live.</p>
+            <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=QN_Ns1SWJkqGoXecUfacSCALdXuuzT5Nr4z-edJ4AwRUMFMzWFVNVVhHOVc5UVNQUEczUkRQQ01DWi4u" target="_blank" rel="noopener" className="btn btn-primary btn-on-dark">
+              Register your interest
+              <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </a>
           </div>
         </div>
 

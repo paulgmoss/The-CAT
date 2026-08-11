@@ -34,8 +34,7 @@
       const m = META[ctx.id];
       const g = groups(ctx.id);
       const n = g.A.length + g.B.length;
-      return `<button data-ctx="${ctx.id}" style="cursor:pointer; text-align:left; padding:18px 22px; border-radius:var(--radius-md); border:1px solid ${on ? 'var(--cat-navy-950)' : 'var(--color-border-subtle)'}; background:${on ? 'var(--cat-navy-950)' : 'var(--color-bg-surface)'}; color:${on ? '#fff' : 'var(--color-text-primary)'}; display:flex; flex-direction:column; gap:6px; transition:background 180ms ease-out, border-color 180ms ease-out;">
-        <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; opacity:${on ? 0.7 : 0.55};">${esc(m.label)} · ${n}</span>
+      return `<button data-ctx="${ctx.id}" style="cursor:pointer; text-align:left; padding:18px 22px; border-radius:var(--radius-md); border:1px solid ${on ? 'var(--c-red)' : 'var(--color-border-subtle)'}; background:${on ? 'var(--c-red)' : 'var(--color-bg-surface)'}; color:${on ? '#fff' : 'var(--color-text-primary)'}; display:flex; flex-direction:column; gap:6px; transition:background 180ms ease-out, border-color 180ms ease-out;">
         <span style="font-weight:600; font-size:17px; letter-spacing:-0.01em;">${esc(ctx.title)}</span>
       </button>`;
     }).join('');
@@ -46,7 +45,7 @@
       const on = p === state.pathway;
       const n = g[p].length;
       const dis = n === 0;
-      return `<button data-pathway="${p}" ${dis ? 'disabled' : ''} style="cursor:${dis ? 'default' : 'pointer'}; padding:9px 18px; border-radius:var(--radius-pill); font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; border:1.5px solid ${on ? 'var(--cat-violet-500)' : 'var(--cat-navy-950)'}; background:${on ? 'var(--cat-violet-500)' : 'transparent'}; color:${on ? '#fff' : dis ? 'var(--color-text-muted)' : 'var(--cat-navy-950)'}; opacity:${dis ? 0.45 : 1};">Pathway ${p} · ${n}</button>`;
+      return `<button data-pathway="${p}" ${dis ? 'disabled' : ''} style="cursor:${dis ? 'default' : 'pointer'}; padding:9px 18px; border-radius:var(--radius-pill); font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; border:1.5px solid ${on ? 'var(--cat-violet-500)' : 'var(--cat-navy-950)'}; background:${on ? 'var(--cat-violet-500)' : 'transparent'}; color:${on ? '#fff' : dis ? 'var(--color-text-muted)' : 'var(--cat-navy-950)'}; opacity:${dis ? 0.45 : 1};">Pathway ${p}</button>`;
     }).join('');
   }
 
@@ -121,7 +120,6 @@
                 <p style="font:var(--text-body-sm); margin:0; line-height:1.6;"><strong style="font-weight:650;">${esc(i.lead)}</strong> ${esc(i.text)}</p>
               </div>`).join('')}
           </div>
-          <blockquote style="margin:8px 0 0; padding:24px 28px; background:var(--cat-navy-950); color:#fff; border-radius:var(--radius-sm); font-family:var(--font-serif-display); font-size:21px; font-style:italic; line-height:1.45; font-weight:500;">&ldquo;${esc(z.z3.quote)}&rdquo;</blockquote>
         </div>
       </div>
     </div>`;
@@ -169,8 +167,8 @@
     document.getElementById('scenarios-root').innerHTML = `
       <div style="min-height:100vh; background:var(--color-bg-page); font-family:var(--font-sans); color:var(--color-text-primary);">
         <div style="max-width:var(--maxw); margin:0 auto; padding:64px var(--gutter) 32px;">
-          <h1 style="font:var(--text-h1); margin:0 0 16px; max-width:820px;">How educators use the <span class="cat-letter">C</span><span class="cat-letter">A</span><span class="cat-letter">T</span></h1>
-          <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0; max-width:640px; font-size:24px;">Ten scenarios. Find the one that matches your situation, and read that one.</p>
+          <h1 style="font:var(--text-h1); margin:0 0 16px; max-width:820px;">How educators can use the <span class="cat-letter">C</span><span class="cat-letter">A</span><span class="cat-letter">T</span></h1>
+          <p style="font:var(--text-display-italic); color:var(--color-text-muted); margin:0; max-width:640px; font-size:24px;">Ten scenarios. Find and read the scenario that best aligns with your situation.</p>
         </div>
         <div style="max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);">
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">${renderContextTabs()}</div>
