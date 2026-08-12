@@ -2045,6 +2045,15 @@ html { scroll-behavior: smooth; }
 .explore-head { margin-bottom: 28px; }
 .explore-eyebrow { color: rgba(255,255,255,0.6); }
 .explore-lede { margin: 8px 0 0; color: #fff; font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
+.use-it-band { background: var(--c-red); padding: 32px 0; position: relative; overflow: visible; }
+.use-it-inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+.use-it-text { max-width: 640px; }
+.use-it-eyebrow { color: rgba(255,255,255,0.65); }
+.use-it-title { font-size: 28px; line-height: 1.2; letter-spacing: -0.015em; color: #fff; margin: 10px 0 8px; text-wrap: balance; }
+.use-it-sub { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0; text-wrap: pretty; max-width: 560px; }
+.use-it-arrow { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.use-it-arrow-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75); white-space: nowrap; }
+@media (max-width: 900px) { .use-it-inner { flex-direction: column; align-items: flex-start; gap: 24px; } }
 .explore-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
 .explore-tab { display: flex; align-items: center; gap: 16px; padding: 22px 24px; background: var(--c-bg-2); border: 1px solid transparent; border-radius: var(--radius-lg); cursor: pointer; text-align: left; color: var(--c-ink); transition: background 180ms ease, border-color 180ms ease, transform 180ms ease; }
 .explore-tab:hover { background: var(--c-white); transform: translateY(-2px); }
@@ -2322,6 +2331,7 @@ html { scroll-behavior: smooth; }
           <SiteNav current="home" />
           <main>
             <Hero />
+            <UseItBanner />
             <OverviewCells />
             <Research />
           </main>

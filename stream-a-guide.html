@@ -1662,9 +1662,16 @@ html { scroll-behavior: smooth; }
       title: 'CLO Weighting',
       body: (
         <>
-          <div className="tinstr"><p>Estimate the relative importance of each CLO as percentages totalling 100%. Think about how much influence each outcome has across all of your assignments and their marking criteria, not just how much teaching time it receives.</p></div>
-          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--c-body)', margin: '16px 0 0' }}>This is a new way of thinking for most people, so keep it simple: don't rank by how much you teach it or enjoy teaching it. A useful question to ask for each CLO is, <strong>"if a student failed only this outcome but did well on everything else, how much would that damage their overall competence in the course?"</strong> The bigger the damage, the higher the weighting.</p>
-          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--c-body)', margin: '12px 0 0' }}>Equal weighting is a fine starting point, four CLOs at 25% each, but few courses are truly balanced that way. <strong>Example.</strong> A course might weight CLO 1 at 30%, CLO 2 at 30%, CLO 3 at 25% and CLO 4 at 15%, reflecting that the fourth outcome matters, but less than the others.</p>
+          <div className="tinstr">
+            <blockquote style={{ margin: '0 0 8px', paddingLeft: 16, borderLeft: '4px solid rgba(20,15,80,0.1)', color: 'var(--c-body)' }}>
+              <p>Estimate the relative importance of each CLO in the course as percentages totalling 100%. This is less a fact to discover than a judgement you likely already hold, even if it has never been stated as a number before. Think about how much each outcome should count toward a student's overall standing, which is not always the same as how much teaching time it receives. Your first estimate may need adjusting once you see how it plays out against your actual assignments and marking criteria; that's a normal part of the process, not a sign of error.</p>
+            </blockquote>
+          </div>
+          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--c-body)', margin: '12px 0 0' }}></p>
+          <div style={{ marginTop: 20 }}>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--c-body)', margin: '0 0 12px' }}>For example, in the CLO Weightings below, we are saying that CLO 1 is approximately influencing 30% of the course, which means that CLO 1 should be influencing 30% of the overall assignment design. That leaves 70% for the other CLOs to influence the course.</p>
+            <img src="assets/clo-weighting-example.png" alt="Example CLO Weightings table with CLO 1 at 30%, CLO 2 at 30%, CLO 3 at 15%, CLO 4 at 25%" style={{ width: '100%', display: 'block', borderRadius: 10, border: '1px solid var(--c-hairline)' }} />
+          </div>
         </>
       ),
     },
@@ -1675,7 +1682,7 @@ html { scroll-behavior: smooth; }
       title: 'CLO Mapping',
       body: (
         <>
-          <div className="tinstr"><p>Every mark allocated to an assignment draws on a CLO's budget or it does not. There's no single right way to think about it, four approaches produce the same result, so use whichever mental model fits a given CLO.</p></div>
+          <div className="tinstr"><p>Every mark allocated to an assignment draws on a CLO's budget. That budget is typically distributed across several or all of the assignments in the course. How that distribution is achieved is up to you. There's no single right way to think about it, but below we offer four approaches. They all produce the same result, which is to represent the distribution as a ratio, indicating more or less influence on each assignment. Choose whichever approach works best for a particular CLO.</p></div>
           <Acc items={[
             {
               tag: 'Section A',
@@ -1738,7 +1745,7 @@ html { scroll-behavior: smooth; }
         <>
           <div className="gcallout" style={{ background: 'var(--c-bright-soft)', borderColor: 'transparent' }}>
             <span className="mono">Why this matters</span>
-            The course as currently taught, including its tutorials, LMS resources and teaching sequence, is resourced around the intended mapping, whether or not anyone has said so explicitly. When the tool's output doesn't match that intention, the mapping has to change to close the gap. And because the mapping is what the course has actually been resourced against, changing it changes what needs to be taught, built and resourced too. Below are real educators' scenarios, grouped by why they opened the tool.
+            The course as currently taught, including its tutorials, LMS resources and teaching sequence, is resourced around the intended mapping and CLO influence, whether or not anyone has said so explicitly. When the tool's output doesn't match that intention, the mapping has to change to close the gap. And because the mapping is a reflection of how the course is resourced, in terms of the teaching sequence and the tutorial design and the LMS structure, changing it changes what needs to be taught, built and resourced too. Below are scenarios of the three possible contexts in which the tool may be used.
           </div>
           <div style={{ marginTop: 20 }}><IterateContexts /></div>
         </>
@@ -1851,7 +1858,7 @@ html { scroll-behavior: smooth; }
               <div>
                 <span className="gh-tag">Pathway A</span>
                 <h1 className="gh-title">Learning Outcomes → Assignments</h1>
-                <p style={{ fontSize: 15, color: 'var(--c-body)', marginTop: 8, maxWidth: 560, lineHeight: 1.55 }}>Starts from you estimating the relative importance of your CLOs and how they map across your summative assignments, then derives the assignment weights and rubric composition that mapping implies, best suited when you're designing from outcomes down, or want to check a course's mapping against its stated weights.</p>
+                <p style={{ fontSize: 15, color: 'var(--c-body)', marginTop: 8, maxWidth: 560, lineHeight: 1.55 }}>In Pathway A you estimate the relative importance of your CLOs and then map them across your summative assignments. These inputs result in 2 outputs: the actual assignment weights and the influence of each CLO on the respective rubrics/marking guides.</p>
                 <p style={{ fontSize: 13, color: 'var(--c-body)', marginTop: 10, maxWidth: 560, lineHeight: 1.5 }}>Note: <span style={{ color: '#3E3A6B', background: '#EDEAE0' }}>The numbers the tool produces are estimates. Rounding to the nearest 5% is fine.</span></p>
               </div>
               <HeroExploreCard

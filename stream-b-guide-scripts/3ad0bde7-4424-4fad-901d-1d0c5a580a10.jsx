@@ -14,7 +14,6 @@ function SiteNav({ current = "home" }) {
 
   const links = [
   { id: 'home', label: 'Overview', href: 'index.html' },
-  { id: 'scenarios', label: 'Scenarios', href: 'scenarios.html' },
   { id: 'stream-a', label: 'Pathway A guide', href: 'stream-a-guide.html' },
   { id: 'stream-b', label: 'Pathway B guide', href: 'stream-b-guide.html' },
   { id: 'research', label: 'Research', href: 'index.html#research' }];

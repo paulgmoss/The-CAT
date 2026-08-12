@@ -33,6 +33,79 @@ function Hero() {
     </section>);
 }
 
+function UseItBanner() {
+  const wrapRef = React.useRef(null);
+  const anchorRef = React.useRef(null);
+  const [geo, setGeo] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    function measure() {
+      const navA = document.querySelector('.btn-nav-a');
+      const navB = document.querySelector('.btn-nav-b');
+      const anchorEl = anchorRef.current;
+      const wrapEl = wrapRef.current;
+      if (!navA || !navB || !anchorEl || !wrapEl) { setGeo(null); return; }
+      const wrapRect = wrapEl.getBoundingClientRect();
+      const ox = wrapRect.left, oy = wrapRect.top;
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const aRect = navA.getBoundingClientRect();
+      const bRect = navB.getBoundingClientRect();
+      const anchor = { x: anchorRect.right - ox, y: anchorRect.top - oy + anchorRect.height / 2 };
+      const endA = { x: aRect.left - ox + aRect.width / 2, y: aRect.top - oy + aRect.height + 8 };
+      const endB = { x: bRect.left - ox + bRect.width / 2, y: bRect.top - oy + bRect.height + 8 };
+      const mid = { x: (endA.x + endB.x) / 2, y: (endA.y + endB.y) / 2 };
+      const gap = 57; // ~1.5cm to the right of the word, inline with it
+      const start = { x: anchor.x + gap, y: anchor.y };
+      const fork = { x: start.x + (mid.x - start.x) * 0.62, y: start.y + (mid.y - start.y) * 0.62 };
+      function curve(p0, p1, bendSign) {
+        const dx = p1.x - p0.x, dy = p1.y - p0.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len, ny = dx / len;
+        const bend = Math.min(50, len * 0.2) * bendSign;
+        const ctrl = { x: (p0.x + p1.x) / 2 + nx * bend, y: (p0.y + p1.y) / 2 + ny * bend };
+        const path = `M ${p0.x} ${p0.y} Q ${ctrl.x} ${ctrl.y} ${p1.x} ${p1.y}`;
+        const angle = Math.atan2(p1.y - ctrl.y, p1.x - ctrl.x) * 180 / Math.PI;
+        return { path, angle };
+      }
+      const trunk = curve(start, fork, 1);
+      const branchA = curve(fork, endA, -1);
+      const branchB = curve(fork, endB, 1);
+      setGeo({ trunk, branchA, branchB, endA, endB });
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('scroll', measure, { passive: true });
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('scroll', measure);
+    };
+  }, []);
+
+  return (
+    <section className="use-it-band" id="use-it">
+      <div className="container use-it-inner" ref={wrapRef}>
+        <div className="use-it-text">
+          <span className="eyebrow use-it-eyebrow">Before you read on</span>
+          <h2 className="use-it-title">The best way to learn about the CAT is to use <span ref={anchorRef}>it</span></h2>
+          <p className="use-it-sub">Each pathway has instructions, but you can always return to the guides if you need more information, or want to see some use cases.</p>
+        </div>
+        {geo && (
+          <svg width="1" height="1" style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 60 }}>
+            <path d={geo.trunk.path} stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+            <path d={geo.branchA.path} stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+            <path d={geo.branchB.path} stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+            <g style={{ transform: `translate(${geo.endA.x}px, ${geo.endA.y}px) rotate(${geo.branchA.angle}deg)` }}>
+              <path d="M-12 -7 L2 0 L-12 7 Z" fill="#fff" stroke="none" />
+            </g>
+            <g style={{ transform: `translate(${geo.endB.x}px, ${geo.endB.y}px) rotate(${geo.branchB.angle}deg)` }}>
+              <path d="M-12 -7 L2 0 L-12 7 Z" fill="#fff" stroke="none" />
+            </g>
+          </svg>
+        )}
+      </div>
+    </section>);
+}
+
 function OverviewCells() {
   const contexts = [
     { num: '01', title: 'Verify an existing course', body: 'Check whether the CLO emphasis intended is what the assignments actually measure, a useful step before the course next runs.', contextId: 'verifying' },
@@ -55,8 +128,8 @@ function OverviewCells() {
     <section className="explore-band" id="how">
       <div className="container">
         <div className="explore-head">
-          <span className="eyebrow explore-eyebrow" style={{fontSize:'22px',color:'#FFFFFF',fontWeight:800,letterSpacing:'0.02em'}}>THE BEST WAY TO LEARN THE CAT IS TO USE IT - <span style={{fontFamily:'Mulish, -apple-system, "system-ui", "Segoe UI", system-ui, sans-serif',fontWeight:500,letterSpacing:'-0.22px',textTransform:'none'}}>but here is some information to orient you to its capabilities</span></span>
-          <p className="explore-lede"></p>
+          <span className="eyebrow explore-eyebrow">Orientation</span>
+          <p className="explore-lede">Some information to orient you, if you want it before diving in.</p>
         </div>
         <div className="explore-tabs">
           {cells.map((c) => (
@@ -96,13 +169,10 @@ function OverviewCells() {
                 <p className="explore-panel-sub">Which of these matches where the course sits right now?</p>
                 <div className="explore-contexts">
                   {contexts.map((ctx, ci) => (
-                    <a className="uci-card explore-uci" href={`scenarios.html#${ctx.contextId}`} key={ci}>
+                    <div className="uci-card explore-uci" key={ci}>
                       <h3 className="uci-title">{ctx.title}</h3>
                       <p className="uci-body">{ctx.body}</p>
-                      <span className="uci-link mono">See real scenarios
-                        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      </span>
-                    </a>
+                    </div>
                   ))}
                 </div>
               </React.Fragment>}
