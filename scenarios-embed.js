@@ -32,7 +32,6 @@
 
   function zoneLabel(n, title, accent) {
     return `<div style="display:flex; align-items:baseline; gap:10px; margin-bottom:14px;">
-      <span style="font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.1em; color:${accent || 'var(--color-text-muted)'};">ZONE ${n}</span>
       <span style="font-weight:600; font-size:${n === 3 ? '19px' : '15px'}; letter-spacing:-0.01em;">${esc(title)}</span>
     </div>`;
   }
@@ -42,7 +41,7 @@
     return `<div style="border-top:1px solid var(--color-border-subtle); padding:28px 24px 36px; display:flex; flex-direction:column; gap:20px;">
       <div style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:stretch;">
         <div style="display:flex; flex-direction:column; gap:14px; min-width:0;">
-          ${zoneLabel(1, 'The situation')}
+          ${zoneLabel(1, 'The context')}
           <div style="display:grid; grid-template-columns:132px 1fr; gap:16px; align-items:start;">
             <img src="${sc.avatarSrc}" alt="${esc(sc.name)}" style="width:132px; height:168px; object-fit:cover; border-radius:10px; background:var(--color-bg-surface-muted); display:block;">
             <div style="display:flex; flex-direction:column; gap:10px; min-width:0;">
