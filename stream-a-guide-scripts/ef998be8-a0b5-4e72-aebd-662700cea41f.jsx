@@ -1,7 +1,7 @@
-/* CAT — Shared components: SiteNav, Footer, ScrollDemo scaffold */
+/* CAT, Shared components: SiteNav, Footer, ScrollDemo scaffold */
 
 // ─────────────────────────────────────────────────────────────
-// SiteNav — persistent top nav for all pages
+// SiteNav, persistent top nav for all pages
 // ─────────────────────────────────────────────────────────────
 function SiteNav({ current = "home" }) {
   const [scrolled, setScrolled] = React.useState(false);
@@ -16,6 +16,7 @@ function SiteNav({ current = "home" }) {
   { id: 'home', label: 'Overview', href: 'index.html' },
   { id: 'stream-a', label: 'Pathway A guide', href: 'stream-a-guide.html' },
   { id: 'stream-b', label: 'Pathway B guide', href: 'stream-b-guide.html' },
+  { id: 'question-bank', label: 'Question bank', href: 'question-bank.html' },
   { id: 'research', label: 'Research', href: 'index.html#research' }];
 
 
@@ -77,7 +78,7 @@ function SiteFooter() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// ScrollDemo — wraps a demo, auto-plays once when in view,
+// ScrollDemo, wraps a demo, auto-plays once when in view,
 // provides replay via a ref. Children receive a `progress` (0..1)
 // and `playing` prop via render prop.
 // ─────────────────────────────────────────────────────────────
@@ -124,7 +125,7 @@ function ScrollDemo({ duration = 6, children, caption, label, height }) {
         }
       });
     }, { threshold: 0.15 });
-    // Small initial delay before observing — prevents firing mid-compilation
+    // Small initial delay before observing, prevents firing mid-compilation
     const timer = setTimeout(() => io.observe(el), 200);
     return () => {
       clearTimeout(timer);

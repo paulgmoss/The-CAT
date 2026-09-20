@@ -1528,6 +1528,8 @@ html { scroll-behavior: smooth; }
   <script type="text/babel" src="stream-b-guide-scripts/3ad0bde7-4424-4fad-901d-1d0c5a580a10.jsx"></script>
   <script src="scenarios-data.js"></script>
   <script src="scenarios-zones.js"></script>
+  <script src="scenarios-chapters.js"></script>
+  <script src="question-bank.js"></script>
   <script src="scenarios-embed.js"></script>
 
   <script type="text/babel">
@@ -1670,14 +1672,10 @@ html { scroll-behavior: smooth; }
         const navRect = navEl.getBoundingClientRect();
         const start = { x: anchorRect.left - ox + anchorRect.width / 2, y: anchorRect.top - oy - 6 };
         const end = { x: navRect.left - ox + navRect.width / 2, y: navRect.top - oy + navRect.height + 8 };
-        const dx = end.x - start.x, dy = end.y - start.y;
-        const len = Math.hypot(dx, dy) || 1;
-        const nx = -dy / len, ny = dx / len;
-        const bend = Math.min(50, len * 0.22);
-        const ctrl = { x: (start.x + end.x) / 2 + nx * bend, y: (start.y + end.y) / 2 + ny * bend };
-        const path = `M ${start.x} ${start.y} Q ${ctrl.x} ${ctrl.y} ${end.x} ${end.y}`;
-        const angle = Math.atan2(end.y - ctrl.y, end.x - ctrl.x) * 180 / Math.PI;
-        setGeo({ path, end, angle });
+        if (end.y < 14) end.y = 14;
+        const rise = Math.max(40, (start.y - end.y) * 0.55);
+        const path = `M ${start.x} ${start.y} C ${start.x} ${start.y - rise} ${end.x} ${end.y + rise} ${end.x} ${end.y}`;
+        setGeo({ path, end, angle: -90 });
       }
       measure();
       window.addEventListener('resize', measure);
@@ -1732,7 +1730,7 @@ html { scroll-behavior: smooth; }
               <div className="gh-navy-col">
                 <span className="gh-tag">Pathway B</span>
                 <h1 className="gh-title">Assignments → Learning Outcomes</h1>
-                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', marginTop: 8, maxWidth: 560, lineHeight: 1.55 }}>Starts from your summative assignments and rubrics, and displays the CLO weightings that mapping actually delivers, best suited when you want to check what an existing rubric is really assessing, or you're refining rubric criteria and want to see the effect on CLO emphasis. <span style={{ color: '#EDEAE0', background: 'rgba(255,255,255,0.12)' }}>Note: the numbers the tool produces are estimates, rounding to the nearest 5% is fine.</span></p>
+                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', marginTop: 8, maxWidth: 560, lineHeight: 1.55 }}>Starts from your summative assignments and rubrics, and displays the CLO weightings that mapping actually delivers, best suited when you want to check what an existing rubric is really assessing, or you're refining rubric criteria and want to see the effect on CLO emphasis. <span style={{ color: '#EDEAE0', background: 'rgba(255,255,255,0.12)' }}>Note: the numbers the tool produces are estimates, rounding to the nearest 5% is fine.</span> The Teaching Readiness Mapping Template, which lets you plan readiness week by week, is currently available in Pathway A only; it is coming to Pathway B in a later iteration.</p>
               </div>
               <div className="gh-cta-col">
                 <span className="eyebrow use-it-eyebrow">Before you read on</span>
@@ -1741,9 +1739,9 @@ html { scroll-behavior: smooth; }
               </div>
               {geo && (
                 <svg width="1" height="1" style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 60 }}>
-                  <path d={geo.path} stroke="#140F50" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.85" />
+                  <path d={geo.path} stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.9" />
                   <g style={{ transform: `translate(${geo.end.x}px, ${geo.end.y}px) rotate(${geo.angle}deg)` }}>
-                    <path d="M-12 -7 L2 0 L-12 7 Z" fill="#140F50" stroke="none" />
+                    <path d="M-12 -7 L2 0 L-12 7 Z" fill="#fff" stroke="none" />
                   </g>
                 </svg>
               )}

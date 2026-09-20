@@ -1,11 +1,11 @@
-/* ACT Demos — scroll-triggered animated sequences that explain the tool
+/* ACT Demos, scroll-triggered animated sequences that explain the tool
    Each demo: 6-10s, auto-plays once, replayable.
    Uses `progress` (0..1) from ScrollDemo wrapper. */
 
 // ─────────────────────────────────────────────────────────────
-// HeroDemo — the four linked views, unfolding left → right
+// HeroDemo, the four linked views, unfolding left → right
 //   01 CLO weightings · 02 CLO mapping · 03 Assignment weights ·
-//   04 Rubric composition — then a return loop to signal iteration
+//   04 Rubric composition, then a return loop to signal iteration
 // ─────────────────────────────────────────────────────────────
 function HeroDemo({ progress }) {
   const P = progress;
@@ -21,7 +21,7 @@ function HeroDemo({ progress }) {
     [0.118, 0.294, 0.588],
   ];
 
-  // Staged reveals — each view unfolds after the previous
+  // Staged reveals, each view unfolds after the previous
   const s1 = seg(P, 0, 1, 0.04, 0.20, ease.outCubic);  // CLO weightings
   const s2 = seg(P, 0, 1, 0.22, 0.42, ease.outCubic);  // mapping
   const s3 = seg(P, 0, 1, 0.44, 0.64, ease.outCubic);  // assignment weights
@@ -210,7 +210,7 @@ function HeroDemo({ progress }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// StreamADemo — CLO weightings + mapping → assignment weights
+// StreamADemo, CLO weightings + mapping → assignment weights
 // Slightly more detailed than hero: shows a knob being turned
 // ─────────────────────────────────────────────────────────────
 function StreamADemo({ progress, playing }) {
@@ -227,7 +227,7 @@ function StreamADemo({ progress, playing }) {
   const labels = ['CLO1', 'CLO2', 'CLO3', 'CLO4'];
   const colors = ['#140F50', '#1448FF', '#836BFF', '#3B2FAA'];
 
-  // Canonical mapping (shown as decimals — matches the screenshots' raw 50/100/0 etc.)
+  // Canonical mapping (shown as decimals, matches the screenshots' raw 50/100/0 etc.)
   const mapping = [
     [0.333, 0.667, 0],       // CLO1  (zero on A3)
     [0.158, 0.316, 0.526],   // CLO2
@@ -360,7 +360,7 @@ function hexRgb(hex) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// StreamBDemo — assignments + criteria → derived CLO weights
+// StreamBDemo, assignments + criteria → derived CLO weights
 // ─────────────────────────────────────────────────────────────
 function StreamBDemo({ progress, playing }) {
   // Phase 1: criteria cards appear
@@ -368,17 +368,17 @@ function StreamBDemo({ progress, playing }) {
   // Phase 3: CLO totals animate up
 
   const criteria = [
-    // A1 · Literature essay (30% of grade) — 3 criteria
+    // A1 · Literature essay (30% of grade), 3 criteria
     { id: 'C1.1', label: 'Argument structure', marks: 40, clo: 0, assign: 'A1' },
     { id: 'C1.2', label: 'Source quality & evidence', marks: 35, clo: 1, assign: 'A1' },
     { id: 'C1.3', label: 'Synthesis of viewpoints', marks: 25, clo: 2, assign: 'A1' },
 
-    // A2 · Group project (30% of grade) — 3 criteria
+    // A2 · Group project (30% of grade), 3 criteria
     { id: 'C2.1', label: 'Analytical depth', marks: 35, clo: 1, assign: 'A2' },
     { id: 'C2.2', label: 'Artefact design & synthesis', marks: 35, clo: 2, assign: 'A2' },
     { id: 'C2.3', label: 'Applied method & teamwork', marks: 30, clo: 3, assign: 'A2' },
 
-    // A3 · Final exam (40% of grade) — all FOUR CLOs represented
+    // A3 · Final exam (40% of grade), all FOUR CLOs represented
     { id: 'C3.1', label: 'Critical argument (short answer)', marks: 25, clo: 0, assign: 'A3' },
     { id: 'C3.2', label: 'Evidence analysis', marks: 25, clo: 1, assign: 'A3' },
     { id: 'C3.3', label: 'Synthesis across topics', marks: 20, clo: 2, assign: 'A3' },
@@ -467,18 +467,18 @@ function StreamBDemo({ progress, playing }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// IterationDemo — shows the loop: input → output → reflect → adjust
+// IterationDemo, shows the loop: input → output → reflect → adjust
 // ─────────────────────────────────────────────────────────────
 const colorCLO1 = '#140F50';
 
 // ─────────────────────────────────────────────────────────────
-// MappingDemo — the CLO↔Assignment influence matrix visualizer
+// MappingDemo, the CLO↔Assignment influence matrix visualizer
 // A clean grid where dots pulse, connections light up
 // ─────────────────────────────────────────────────────────────
 function MappingDemo({ progress, playing }) {
   const clos = ['CLO1 · Argue critically', 'CLO2 · Analyse evidence', 'CLO3 · Synthesise ideas', 'CLO4 · Apply methods'];
   const assigns = ['A1 Essay', 'A2 Project', 'A3 Exam'];
-  // Canonical mapping — matches Stream A and Hero demos.
+  // Canonical mapping, matches Stream A and Hero demos.
   // CLO1 is not mapped to A3 (visible absence).
   const m = [
     [0.33, 0.67, 0],

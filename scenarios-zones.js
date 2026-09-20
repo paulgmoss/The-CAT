@@ -6,7 +6,7 @@ window.ZONES = {
     summary: 'The course runs well, but Sarah has a nagging sense the campaign proposal is doing more work than the other two assignments.',
     z1: {
       context: 'Sarah coordinates a second-year Marketing course with three assignments: a brand audit (30%), a campaign proposal (40%), and a pitch presentation (30%), mapped against four equally weighted CLOs covering consumer behaviour analysis, strategic communication, market research methods, and professional presentation.',
-      rationale: 'She enters her existing mapping using a proportional approach (image opposite), and in combination with the CLO weightings, produces the output below.',
+      rationale: 'She enters her existing mapping by distributing each CLO’s budget directly as percentages (image opposite), and in combination with the CLO weightings, produces the output below.',
       statLabel: 'Implied split, brand audit / campaign / pitch',
       statValue: '28 / 47 / 26',
       statNote: 'vs. the 30 / 40 / 30 Sarah intended',
@@ -31,7 +31,7 @@ window.ZONES = {
     summary: "Omar's course has run successfully for three years. He enters his mapping to create a record for an upcoming accreditation cycle, and discovers something he did not expect.",
     z1: {
       context: 'Omar coordinates a third-year Environmental Science course with three assignments: a field report (30%), a data analysis (40%), and a policy brief (30%). He has four equally weighted CLOs covering ecological systems analysis, quantitative data interpretation, stakeholder communication, and evidence-based policy reasoning.',
-      rationale: "He uses the progression approach (image opposite) and enters how much of each CLO's domain is accessible to assess at each point in the course, revealing the assignment weights below.",
+      rationale: "He uses the relative emphasis approach (image opposite), entering a ratio for each CLO across the three assignments to reflect where it carries more of the assessment, revealing the assignment weights below.",
       statLabel: 'Implied split, field report / data analysis / policy brief',
       statValue: '18 / 31 / 51',
       statNote: 'vs. the 30 / 40 / 30 Omar intended',
@@ -48,7 +48,7 @@ window.ZONES = {
         { label: 'LMS resources', lead: 'Ecological systems resources can be concentrated in the weeks leading into the field report and data analysis.', text: 'Resources in the final weeks can be rebuilt around policy writing, stakeholder analysis, and evidence-based argumentation, the CLOs the policy brief now appears to be primarily assessing.' },
         { label: 'Feedback', lead: 'Feedback on the data analysis becomes the final formal feedback students receive on ecological systems analysis.', text: 'It needs to be complete and developmental rather than provisional, as it cannot assume another opportunity will follow.' },
       ],
-      quote: 'The progression values I entered reflect how I actually teach this course. I did not realise the cumulative effect was concentrating so much of the grade in the policy brief, and that students had been experiencing a very different course from the one I described to them.',
+      quote: 'The ratios I entered reflect how I actually teach this course. I did not realise their combined effect was concentrating so much of the grade in the policy brief, and that students had been experiencing a very different course from the one I described to them.',
     },
   },
 
@@ -108,12 +108,12 @@ window.ZONES = {
     summary: 'Priya wants to concentrate clinical reasoning more heavily toward the case study exam, and discovers the proposed change makes things worse before finding what actually works.',
     z1: {
       context: 'Priya coordinates a third-year Nursing course with three assignments: a clinical reflection (20%), a care plan (40%), and a case study exam (40%). She has four CLOs covering clinical reasoning (30%), patient-centred care (25%), evidence-based practice (30%), and professional communication (15%).',
-      rationale: 'She uses the progression approach throughout (image opposite), testing whether her intended change produces the implied weights she wants, shown below.',
+      rationale: 'She uses the relative emphasis approach throughout (image opposite), entering ratios that build toward the exam, testing whether her intended change produces the implied weights she wants, shown below.',
       statLabel: 'Implied split, clinical reflection / care plan / exam',
       statValue: '17 / 33 / 50',
       statNote: 'vs. the 20 / 40 / 40 Priya intended',
     },
-    z2: 'The progression logic had concentrated too much weight toward the exam across all four CLOs simultaneously. Priya\u2019s intended change, concentrating clinical reasoning even further toward the exam, made things worse, shifting the split to 15/31/54. The problem was not one CLO row but the cumulative effect of all four. The tool showed her that her proposed change was moving in the wrong direction before she committed to it. She alters the mapping as shown (image opposite), producing the revised split below.',
+    z2: 'Ratios that leaned toward the exam in every CLO row had concentrated too much weight there across all four CLOs simultaneously. Priya\u2019s intended change, concentrating clinical reasoning even further toward the exam, made things worse, shifting the split to 15/31/54. The problem was not one CLO row but the combined effect of all four. The tool showed her that her proposed change was moving in the wrong direction before she committed to it. She alters the mapping as shown (image opposite), producing the revised split below.',
     z3: {
       statLabel: 'Revised implied split, clinical reflection / care plan / exam',
       statValue: '20 / 40 / 40',
@@ -134,12 +134,12 @@ window.ZONES = {
     summary: 'Aisha enters her mapping to check whether her assignment weights are coherent with her CLO design. Tab 3 shows a discrepancy, but the fix is not in the mapping. It is in Tab 1.',
     z1: {
       context: 'Aisha coordinates a second-year Research Methods in Psychology course with three assignments: a research proposal (30%), a data analysis report (40%), and a critical review (30%). She has four CLOs covering research design, statistical reasoning, critical evaluation of evidence, and academic communication.',
-      rationale: 'She uses the contextual sampling approach (image opposite), partitioning each CLO across the three assignments to reflect where each skill is most directly assessed, producing the implied split below.',
+      rationale: "She distributes each CLO's budget directly as percentages (image opposite), reflecting where each skill is most directly assessed, producing the implied split below.",
       statLabel: 'Implied split, proposal / data analysis / critical review',
       statValue: '35 / 41 / 24',
       statNote: 'vs. the 30 / 40 / 30 Aisha intended',
     },
-    z2: 'The critical review was implied at 24% rather than its stated 30%. Aisha\u2019s first instinct was to adjust the mapping, but the mapping was correct. Critical evaluation was already partitioned at 60 toward the critical review. The problem was upstream: critical evaluation was weighted at only 20% in Tab 1. Even with 60% of its domain in the critical review, a 20% CLO can only contribute 12% to that assignment\u2019s total. The mapping was not the lever she needed.',
+    z2: 'The critical review was implied at 24% rather than its stated 30%. Aisha\u2019s first instinct was to adjust the mapping, but the mapping was correct. Critical evaluation was already weighted most heavily toward the critical review, 60% of its budget. The problem was upstream: critical evaluation was weighted at only 20% in Tab 1. Even with 60% of its domain in the critical review, a 20% CLO can only contribute 12% to that assignment\u2019s total. The mapping was not the lever she needed.',
     z3: {
       statLabel: 'Revised implied split, proposal / data analysis / critical review',
       statValue: '31 / 40 / 29',
