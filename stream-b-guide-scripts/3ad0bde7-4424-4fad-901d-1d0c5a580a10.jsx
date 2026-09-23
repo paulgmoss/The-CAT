@@ -16,7 +16,6 @@ function SiteNav({ current = "home" }) {
   { id: 'home', label: 'Overview', href: 'index.html' },
   { id: 'stream-a', label: 'Pathway A guide', href: 'stream-a-guide.html' },
   { id: 'stream-b', label: 'Pathway B guide', href: 'stream-b-guide.html' },
-  { id: 'question-bank', label: 'Question bank', href: 'question-bank.html' },
   { id: 'research', label: 'Research', href: 'index.html#research' }];
 
 
